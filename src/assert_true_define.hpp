@@ -9,10 +9,12 @@
     } else {                                                                   \
       UpdateStatus(                                                            \
           CommandStatus("assert_true", line, #statement, "fatal_failed"));     \
+      return;                                                                  \
     }                                                                          \
   } catch (...) {                                                              \
     UpdateStatus(CommandStatus("assert_true", line, #statement,                \
                                "fatal_failed_exception"));                     \
+    return;                                                                    \
   }
 
 #endif  //UNITTESTER_ASSERT_TRUE_DEFINE_HPP
