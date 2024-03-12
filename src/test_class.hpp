@@ -22,6 +22,7 @@ class Test {
   bool is_passed_ = true;
 
  protected:
+  int line_temp_;  // neccessary for memorization of __LINE__ in commands
   void UpdateStatus(CommandStatus command_result) {
     //    std::cout << "Command type: " << command_result.type << '\n'
     //              << "Command arg_1: " << command_result.arg_1 << '\n'
