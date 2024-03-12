@@ -7,12 +7,12 @@
     if (statement) {                                                           \
       UpdateStatus(CommandStatus("assert_true", line, #statement, "succeed")); \
     } else {                                                                   \
-      UpdateStatus(CommandStatus("assert_true", line, #statement,              \
-                                 "failed_no_exception"));                      \
+      UpdateStatus(                                                            \
+          CommandStatus("assert_true", line, #statement, "fatal_failed"));     \
     }                                                                          \
   } catch (...) {                                                              \
     UpdateStatus(CommandStatus("assert_true", line, #statement,                \
-                               "failed_with_exception"));                      \
+                               "fatal_failed_exception"));                     \
   }
 
 #endif  //UNITTESTER_ASSERT_TRUE_DEFINE_HPP
