@@ -1,6 +1,7 @@
 #ifndef UNITTESTER_TEST_REGISTRY_CLASS_HPP
 #define UNITTESTER_TEST_REGISTRY_CLASS_HPP
 
+// Should think about includes and transfer them to common namespace
 #include <string>
 #include <unordered_map>
 #include "test_class.hpp"
@@ -19,15 +20,17 @@ class TestRegistry {
     test_groups_[test_group][test_name] = test;
     test_all_[test_name] = test;
   }
-  static void ExecuteTest(const std::string& test_name) noexcept {
+  static void ExecuteTest(const std::string& test_name,
+                          bool detailed = false) noexcept {
     test_all_[test_name]->Execute();
   }
-  static void ExecuteTestGroup(const std::string& test_group) noexcept {
+  static void ExecuteTestGroup(const std::string& test_group,
+                               bool detailed = false) noexcept {
     for (std::pair<std::string, Test*> curr_test : test_groups_[test_group]) {
       curr_test.second->Execute();
     }
   }
-  static void ExecuteTestAll() noexcept {
+  static void ExecuteTestAll(bool detailed = false) noexcept {
     for (std::pair<std::string, Test*> curr_test : test_all_) {
       curr_test.second->Execute();
     }
