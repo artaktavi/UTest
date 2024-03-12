@@ -34,15 +34,15 @@ class Test {
     }
     command_history_.push_back(command_result);
   }
+  static const std::set<std::string> failed_strings;
+  Test() = default;
+  Test(const Test& other) = delete;
 
  public:
-  static const std::set<std::string> failed_strings;
   virtual TestStatus Execute() final {
     TestBody();
     return TestStatus(command_history_, is_passed_ ? "succeed" : "failed");
   }
-  Test() = default;
-  Test(const Test& other) = delete;
 };
 
 const std::set<std::string> Test::failed_strings = {
