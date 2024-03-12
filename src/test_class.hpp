@@ -4,11 +4,11 @@
 class Test {
   virtual void TestBody() = 0;
  public:
-  Test() = default;
-  Test(const Test& other) = default;
-  Test& operator=(const Test& other) {
-    return *this;
+  virtual void Execute() final {
+    TestBody();
   }
+  Test() = default;
+  Test(const Test& other) = delete;
 };
 
 #endif  //UNITTESTER_TEST_CLASS_HPP

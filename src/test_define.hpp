@@ -3,16 +3,16 @@
 
 #include "test_registry.hpp"
 
-#define TEST(test_name, test_group)                                            \
-class test_name : Test {                                                     \
-  public:                                                                     \
-    test_name() {                                                              \
-      TestRegistry::AddTest(std::string(#test_name), std::string(#test_group), \
-                            std::dynamic_cast<Test*>(this));                                            \
-    }                                                                          \
-    void TestBody() override;                                                  \
-};                                                                              \
-test_name Test##test_name;                                                     \
-void test_name::TestBody()
+#define TEST(test_name, test_group)                     \
+  class test_name : public Test {                       \
+   public:                                              \
+    test_name() {                                       \
+      TestRegistry::AddTest(#test_name, #test_group,    \
+                            dynamic_cast<Test*>(this)); \
+    }                                                   \
+    void TestBody() override;                           \
+  };                                                    \
+  test_name Test##test_name;                            \
+  void test_name::TestBody()
 
 #endif  //UNITTESTER_TEST_DEFINE_HPP
