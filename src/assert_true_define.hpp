@@ -1,0 +1,18 @@
+#ifndef UNITTESTER_ASSERT_TRUE_DEFINE_HPP
+#define UNITTESTER_ASSERT_TRUE_DEFINE_HPP
+
+#define ASSERT_TRUE(statement)                                                 \
+  int line = __LINE__;                                                         \
+  try {                                                                        \
+    if (statement) {                                                           \
+      UpdateStatus(CommandStatus("assert_true", line, #statement, "succeed")); \
+    } else {                                                                   \
+      UpdateStatus(CommandStatus("assert_true", line, #statement,              \
+                                 "failed_no_exception"));                      \
+    }                                                                          \
+  } catch (...) {                                                              \
+    UpdateStatus(CommandStatus("assert_true", line, #statement,                \
+                               "failed_with_exception"));                      \
+  }
+
+#endif  //UNITTESTER_ASSERT_TRUE_DEFINE_HPP
