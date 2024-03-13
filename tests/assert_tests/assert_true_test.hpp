@@ -3,7 +3,7 @@
 
 #include <cassert>
 #include <iostream>
-#include "../../src/assert_true_define.hpp"
+#include "../../src/asserts/assert_true_define.hpp"
 #include "../../src/test_define.hpp"
 
 TEST(AssertTrueTest, AssertTests) {
