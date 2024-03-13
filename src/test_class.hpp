@@ -18,12 +18,17 @@
 
 class Test {
  private:
-  virtual void TestBody() = 0;
+  std::string name_;
+  std::string group_;
   std::vector<CommandStatus> command_history_;
   bool is_passed_ = true;
+  virtual void TestBody() = 0;
 
  protected:
+  Test(std::string name, std::string group)
+      : name_(std::move(name)), group_(std::move(group)) {}
   int line_temp_ = 0;  // necessary for memorization of __LINE__ in commands
+  static const std::set<std::string> failed_strings;
   void UpdateStatus(const CommandStatus& command_result) {
     //    std::cout << "Command type: " << command_result.type << '\n'
     //              << "Command arg_1: " << command_result.arg_1 << '\n'
@@ -35,8 +40,6 @@ class Test {
     }
     command_history_.push_back(command_result);
   }
-  static const std::set<std::string> failed_strings;
-  Test() = default;
 
  public:
   Test(const Test& other) = delete;
@@ -47,7 +50,7 @@ class Test {
     TestBody();
     const auto stop_time = std::chrono::high_resolution_clock::now();
     const std::chrono::duration<double> execution_time = stop_time - start_time;
-    return {command_history_, execution_time,
+    return {name_, group_, command_history_, execution_time,
             is_passed_ ? "succeed" : "failed"};
   }
 };

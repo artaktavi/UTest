@@ -7,13 +7,18 @@
 #include "command_status_class.hpp"
 
 struct TestStatus {
+  std::string name;
+  std::string group;
   std::vector<CommandStatus>& commands_history;
   std::chrono::duration<double> execution_time;
   std::string result;
   TestStatus() = delete;
-  TestStatus(std::vector<CommandStatus>& commands_history,
+  TestStatus(const std::string& name, const std::string& group,
+             std::vector<CommandStatus>& commands_history,
              std::chrono::duration<double> execution_time, std::string result)
-      : commands_history(commands_history),
+      : name(name),
+        group(group),
+        commands_history(commands_history),
         execution_time(execution_time),
         result(std::move(result)) {}
   TestStatus(const TestStatus& other) = default;
