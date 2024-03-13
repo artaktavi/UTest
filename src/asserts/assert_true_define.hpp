@@ -6,14 +6,14 @@
   try {                                                                     \
     if (statement) {                                                        \
       UpdateStatus(                                                         \
-          CommandStatus("assert_true", line_temp_, #statement, "succeed")); \
+          CommandStatus("ASSERT_TRUE", line_temp_, #statement, "succeed")); \
     } else {                                                                \
-      UpdateStatus(CommandStatus("assert_true", line_temp_, #statement,     \
+      UpdateStatus(CommandStatus("ASSERT_TRUE", line_temp_, #statement,     \
                                  "fatal_failed"));                          \
       return;                                                               \
     }                                                                       \
   } catch (...) {                                                           \
-    UpdateStatus(CommandStatus("assert_true", line_temp_, #statement,       \
+    UpdateStatus(CommandStatus("ASSERT_TRUE", line_temp_, #statement,       \
                                "fatal_failed_exception"));                  \
     return;                                                                 \
   }

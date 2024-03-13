@@ -6,13 +6,13 @@
   try {                                                                     \
     if (statement) {                                                        \
       UpdateStatus(                                                         \
-          CommandStatus("expect_true", line_temp_, #statement, "succeed")); \
+          CommandStatus("EXPECT_TRUE", line_temp_, #statement, "succeed")); \
     } else {                                                                \
       UpdateStatus(                                                         \
-          CommandStatus("expect_true", line_temp_, #statement, "failed"));  \
+          CommandStatus("EXPECT_TRUE", line_temp_, #statement, "failed"));  \
     }                                                                       \
   } catch (...) {                                                           \
-    UpdateStatus(CommandStatus("expect_true", line_temp_, #statement,       \
+    UpdateStatus(CommandStatus("EXPECT_TRUE", line_temp_, #statement,       \
                                "failed_exception"));                        \
   }
 
