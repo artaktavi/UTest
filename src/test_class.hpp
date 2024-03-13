@@ -12,6 +12,7 @@
 // TEST INCLUDE
 //#include <iostream>
 #include <algorithm>
+#include <chrono>
 #include <set>
 #include <vector>
 
@@ -22,7 +23,7 @@ class Test {
   bool is_passed_ = true;
 
  protected:
-  int line_temp_ = 0;  // neccessary for memorization of __LINE__ in commands
+  int line_temp_ = 0;  // necessary for memorization of __LINE__ in commands
   void UpdateStatus(const CommandStatus& command_result) {
     //    std::cout << "Command type: " << command_result.type << '\n'
     //              << "Command arg_1: " << command_result.arg_1 << '\n'
@@ -39,9 +40,15 @@ class Test {
 
  public:
   Test(const Test& other) = delete;
-  virtual TestStatus Execute() final {
+  TestStatus Execute() {
+    command_history_.clear();
+    is_passed_ = true;
+    const auto start_time = std::chrono::high_resolution_clock::now();
     TestBody();
-    return {command_history_, is_passed_ ? "succeed" : "failed"};
+    const auto stop_time = std::chrono::high_resolution_clock::now();
+    const std::chrono::duration<double> execution_time = stop_time - start_time;
+    return {command_history_, execution_time,
+            is_passed_ ? "succeed" : "failed"};
   }
 };
 
