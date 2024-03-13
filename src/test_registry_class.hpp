@@ -20,25 +20,33 @@ class TestRegistry {
     test_groups_[test_group][test_name] = test;
     test_all_[test_name] = test;
   }
-  static void ExecuteTest(const std::string& test_name,
-                          bool detailed = false) noexcept {
-    test_all_[test_name]->Execute();
+  static TestStatus ExecuteTest(const std::string& test_name,
+                                bool detailed = false) noexcept {
+    return test_all_[test_name]->Execute();
   }
-  static void ExecuteTestGroup(const std::string& test_group,
-                               bool detailed = false) noexcept {
+  static std::vector<TestStatus> ExecuteTestGroup(
+      const std::string& test_group, bool detailed = false) noexcept {
+    std::vector<TestStatus> tests_result;
+    tests_result.reserve(test_groups_[test_group].size());
     for (std::pair<std::string, Test*> curr_test : test_groups_[test_group]) {
-      curr_test.second->Execute();
+      tests_result.push_back(curr_test.second->Execute());
     }
+    return tests_result;
   }
-  static void ExecuteTestAll(bool detailed = false) noexcept {
+  static std::vector<TestStatus> ExecuteTestAll(
+      bool detailed = false) noexcept {
+    std::vector<TestStatus> tests_result;
+    tests_result.reserve(test_all_.size());
     for (std::pair<std::string, Test*> curr_test : test_all_) {
-      TestStatus curr_test_res(curr_test.second->Execute());
-      std::cout << "TEST: " << curr_test.first << " " << curr_test_res.result
-                << " with " << curr_test_res.execution_time.count() << "s\n";
+      tests_result.push_back(curr_test.second->Execute());
+      //      std::cout << "TEST: " << curr_test.first << " "
+      //                << tests_result.back().result << " with "
+      //                << tests_result.back().execution_time.count() << "s\n";
       // OR to customize time ratio:
       //                << std::chrono::duration_cast<std::chrono::microseconds>(
       //                       curr_test_res.execution_time).count() << "micros\n";
     }
+    return tests_result;
   }
 };
 
