@@ -11,14 +11,17 @@ struct CommandStatus {
   std::string result;
   CommandStatus(std::string c_type, int c_line, std::string c_arg_1,
                 std::string c_arg_2, std::string c_result)
-      : type(c_type),
+      : type(std::move(c_type)),
         line(c_line),
-        arg_1(c_arg_1),
-        arg_2(c_arg_2),
-        result(c_result) {}
+        arg_1(std::move(c_arg_1)),
+        arg_2(std::move(c_arg_2)),
+        result(std::move(c_result)) {}
   CommandStatus(std::string c_type, int c_line, std::string c_arg_1,
                 std::string c_result)
-      : type(c_type), line(c_line), arg_1(c_arg_1), result(c_result) {}
+      : type(std::move(c_type)),
+        line(c_line),
+        arg_1(std::move(c_arg_1)),
+        result(std::move(c_result)) {}
 };
 
 #endif  //UNITTESTER_COMMAND_STATUS_CLASS_HPP
