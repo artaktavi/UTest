@@ -8,7 +8,7 @@
 
 struct TestStatus {
   std::string name;
-  std::string group;
+  std::string group_name;
   std::vector<CommandStatus>& commands_history;
   std::chrono::duration<double> execution_time;
   std::string result;
@@ -17,7 +17,7 @@ struct TestStatus {
              std::vector<CommandStatus>& commands_history,
              std::chrono::duration<double> execution_time, std::string result)
       : name(name),
-        group(group),
+        group_name(group),
         commands_history(commands_history),
         execution_time(execution_time),
         result(std::move(result)) {}
