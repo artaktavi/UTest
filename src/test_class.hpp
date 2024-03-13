@@ -22,8 +22,8 @@ class Test {
   bool is_passed_ = true;
 
  protected:
-  int line_temp_;  // neccessary for memorization of __LINE__ in commands
-  void UpdateStatus(CommandStatus command_result) {
+  int line_temp_ = 0;  // neccessary for memorization of __LINE__ in commands
+  void UpdateStatus(const CommandStatus& command_result) {
     //    std::cout << "Command type: " << command_result.type << '\n'
     //              << "Command arg_1: " << command_result.arg_1 << '\n'
     //              << "Command arg_2: " << command_result.arg_2 << '\n'
@@ -36,12 +36,12 @@ class Test {
   }
   static const std::set<std::string> failed_strings;
   Test() = default;
-  Test(const Test& other) = delete;
 
  public:
+  Test(const Test& other) = delete;
   virtual TestStatus Execute() final {
     TestBody();
-    return TestStatus(command_history_, is_passed_ ? "succeed" : "failed");
+    return {command_history_, is_passed_ ? "succeed" : "failed"};
   }
 };
 
