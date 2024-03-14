@@ -13,11 +13,11 @@ struct TestStatus {
   std::chrono::duration<double> execution_time;
   std::string result;
   TestStatus() = delete;
-  TestStatus(const std::string& name, const std::string& group,
+  TestStatus(std::string name, std::string group,
              std::vector<CommandStatus>& commands_history,
              std::chrono::duration<double> execution_time, std::string result)
-      : name(name),
-        group_name(group),
+      : name(std::move(name)),
+        group_name(std::move(group)),
         commands_history(commands_history),
         execution_time(execution_time),
         result(std::move(result)) {}

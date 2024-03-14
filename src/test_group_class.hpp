@@ -16,7 +16,7 @@ class TestGroup {
  public:
   TestGroup() = delete;
   TestGroup(const TestGroup& other) = default;
-  TestGroup(std::string name) : group_name_(name) {}
+  TestGroup(std::string name) : group_name_(std::move(name)) {}
   void AddTest(Test* test) { tests_.push_back(test); }
   TestGroupStatus Execute() {
     tests_history_.clear();
