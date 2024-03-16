@@ -59,6 +59,30 @@ class TestResult {
     json_storage_ = other.json_storage_;
     return *this;
   }
+  std::unordered_map<std::string, TestGroupStatus> GetTestGroupStatusMap() {
+    std::unordered_map<std::string, TestGroupStatus> answer;
+    for (auto& group : json_storage_.items()) {
+      std::string group_name = group.key();
+      answer.insert({group_name, TestGroupStatus(group_name)});
+      answer.at(group_name).group_execution_time =
+          std::chrono::duration<double>(group.value()[exec_str_]);
+      answer.at(group_name).result = group.value()[res_str_];
+      for (auto& test : group.value()[tests_str_].items()) {
+        TestStatus test_temp(test.key(), group_name);
+        test_temp.result = test.value()[res_str_];
+        test_temp.execution_time =
+            std::chrono::duration<double>(test.value()[exec_str_]);
+        for (auto& command : test.value()[commands_str_].items()) {
+          test_temp.commands_history.emplace_back(
+              command.value()[type_str_], stoi(command.key()),
+              command.value()[arg_1_str_], command.value()[arg_2_str_],
+              command.value()[res_str_]);
+        }
+        answer.at(group_name).tests_history.push_back(test_temp);
+      }
+    }
+    return answer;
+  }
   TestResult() = default;
   TestResult(const std::string& path_to_json) {
     DeserializeFromJson(path_to_json);
