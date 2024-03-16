@@ -8,19 +8,20 @@
 
 struct TestGroupStatus {
   std::string group_name;
-  std::vector<TestStatus>& tests_history;
+  std::vector<TestStatus> tests_history;
   std::chrono::duration<double> group_execution_time;
-  std::string result;
+  std::string result = "succeed";
+  //  TestGroupStatus(std::string group_name,
+  //                  std::vector<TestStatus>& tests_history,
+  //                  std::chrono::duration<double> group_execution_time,
+  //                  std::string result)
+  //      : group_name(std::move(group_name)),
+  //        tests_history(tests_history),
+  //        group_execution_time(group_execution_time),
+  //        result(std::move(result)) {}
   TestGroupStatus() = delete;
-  TestGroupStatus(std::string group_name,
-                  std::vector<TestStatus>& tests_history,
-                  std::chrono::duration<double> group_execution_time,
-                  std::string result)
-      : group_name(std::move(group_name)),
-        tests_history(tests_history),
-        group_execution_time(group_execution_time),
-        result(std::move(result)) {}
   TestGroupStatus(const TestGroupStatus& other) = default;
+  TestGroupStatus(std::string name) : group_name(std::move(name)) {}
 };
 
 #endif  //UNITTESTER_TEST_GROUP_STATUS_CLASS_HPP

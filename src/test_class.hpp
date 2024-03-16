@@ -20,13 +20,11 @@ class Test {
  private:
   std::string name_;
   std::string group_;
-  std::vector<CommandStatus> command_history_;
-  bool is_passed_ = true;
+  std::vector<CommandStatus>* commands_vec_ = nullptr;
+  bool is_passed_temp_ = true;
   virtual void TestBody() = 0;
 
  protected:
-  Test(std::string name, std::string group)
-      : name_(std::move(name)), group_(std::move(group)) {}
   int line_temp_ = 0;  // necessary for memorization of __LINE__ in commands
   static const std::set<std::string> failed_strings;
   void UpdateStatus(const CommandStatus& command_result) {
@@ -36,22 +34,30 @@ class Test {
     //              << "Result: " << command_result.result << '\n'
     //              << "Line: " << command_result.line << std::endl;
     if (failed_strings.find(command_result.result) != failed_strings.end()) {
-      is_passed_ = false;
+      is_passed_temp_ = false;
     }
-    command_history_.push_back(command_result);
+    if (commands_vec_ == nullptr) {
+      std::cerr << "Test : UpdateStatus : no vector to push command status";
+    } else {
+      commands_vec_->push_back(command_result);
+    }
   }
+  Test(std::string name, std::string group)
+      : name_(std::move(name)), group_(std::move(group)) {}
 
  public:
   Test(const Test& other) = delete;
   TestStatus Execute() {
-    command_history_.clear();
-    is_passed_ = true;
+    is_passed_temp_ = true;
+    TestStatus answer(name_, group_);
+    commands_vec_ = &answer.commands_history;
     const auto start_time = std::chrono::high_resolution_clock::now();
     TestBody();
     const auto stop_time = std::chrono::high_resolution_clock::now();
-    const std::chrono::duration<double> execution_time = stop_time - start_time;
-    return {name_, group_, command_history_, execution_time,
-            is_passed_ ? "succeed" : "failed"};
+    answer.execution_time = stop_time - start_time;
+    answer.result = is_passed_temp_ ? "succeed" : "failed";
+    commands_vec_ = nullptr;
+    return answer;
   }
 };
 
