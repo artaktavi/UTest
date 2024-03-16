@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include "test_class.hpp"
 #include "test_group_class.hpp"
+#include "test_result_class.hpp"
 
 class TestRegistry {
  public:
