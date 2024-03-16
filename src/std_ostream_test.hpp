@@ -1,8 +1,8 @@
-#ifndef UNITTESTER_STD_COUT_TEST_HPP
-#define UNITTESTER_STD_COUT_TEST_HPP
+#ifndef UNITTESTER_STD_OSTREAM_TEST_HPP
+#define UNITTESTER_STD_OSTREAM_TEST_HPP
 
 #include <ostream>
-#include "test_registry_class.hpp"
+#include "test_result_class.hpp"
 
 std::ostream& operator<<(std::ostream& o_stream,
                          const CommandStatus& command_status) {
@@ -46,4 +46,4 @@ std::ostream& operator<<(std::ostream& o_stream, const TestResult& test_res) {
   return o_stream;
 }
 
-#endif  //UNITTESTER_STD_COUT_TEST_HPP
+#endif  //UNITTESTER_STD_OSTREAM_TEST_HPP

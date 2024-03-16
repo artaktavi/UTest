@@ -1,8 +1,8 @@
 #ifndef UNITTESTER_TEST_IO_MANAGER_CLASS_HPP
 #define UNITTESTER_TEST_IO_MANAGER_CLASS_HPP
 
+#include "std_ostream_test.hpp"
 #include "test_result_class.hpp"
-#include "std_cout_test.hpp"
 
 class TestIOManager {
   static bool O_STREAM_ENABLED;
