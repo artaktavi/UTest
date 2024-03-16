@@ -14,8 +14,19 @@ class TestResult {
   static const std::string type_str_;
   static const std::string commands_str_;
   nlohmann::json json_storage_;
+  std::string path_to_auto_save_ = "unit_tester_report.json";
+  bool auto_save_enabled_ = false;
 
  public:
+  void ToggleAutoSave() {
+    auto_save_enabled_ = !auto_save_enabled_;
+  }
+  bool IsAutoSaveEnabled() {
+    return auto_save_enabled_;
+  }
+  void SetPathToAutoSave(const std::string& path) {
+    path_to_auto_save_ = path;
+  }
   void AddTestStatus(const TestStatus& test) {
     json_storage_[test.group_name][tests_str_][test.name][res_str_] =
         test.result;
@@ -91,6 +102,11 @@ class TestResult {
   }
   TestResult(const TestGroupStatus& group) { AddGroupStatus(group); }
   TestResult(const TestStatus& test) { AddTestStatus(test); }
+  ~TestResult() {
+    if (auto_save_enabled_) {
+      SerializeToJson(path_to_auto_save_);
+    }
+  }
 };
 
 const std::string TestResult::tests_str_ = "tests";
