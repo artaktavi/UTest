@@ -39,7 +39,28 @@ class TestResult {
       AddTestStatus(test);
     }
   }
+  void Merge(const TestResult& other) {
+    json_storage_.merge_patch(other.json_storage_);
+  }
+  void SerializeToJson(const std::string& path) {
+    std::ofstream new_file(path);
+    new_file << json_storage_;
+    new_file.close();
+  }
+  void DeserializeFromJson(const std::string& path) {
+    std::ifstream json_input_file(path);
+    if (json_input_file.fail()) {
+      std::cerr << "DeserializeFromJsonFile : Incorrect path to file" << '\n';
+      return;
+    }
+    json_storage_ = nlohmann::json::parse(json_input_file);
+  }
+  TestResult() = default;
+  TestResult(const std::string& path_to_json) {
+    DeserializeFromJson(path_to_json);
+  }
   TestResult(const TestGroupStatus& group) { AddGroupStatus(group); }
+  TestResult(const TestStatus& test) { AddTestStatus(test); }
 };
 
 const std::string TestResult::tests_str_ = "tests";
