@@ -50,10 +50,14 @@ class TestResult {
   void DeserializeFromJson(const std::string& path) {
     std::ifstream json_input_file(path);
     if (json_input_file.fail()) {
-      std::cerr << "DeserializeFromJsonFile : Incorrect path to file" << '\n';
+      std::cerr << "DeserializeFromJson : Incorrect path to file" << '\n';
       return;
     }
     json_storage_ = nlohmann::json::parse(json_input_file);
+  }
+  TestResult& operator=(const TestResult& other) {
+    json_storage_ = other.json_storage_;
+    return *this;
   }
   TestResult() = default;
   TestResult(const std::string& path_to_json) {
