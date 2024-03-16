@@ -3,6 +3,7 @@
 
 #include "../third_party/json.hpp"
 #include "test_group_status_class.hpp"
+#include <fstream>
 
 class TestResult {
   static const std::string tests_str_;
