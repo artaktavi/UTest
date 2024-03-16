@@ -1,9 +1,9 @@
 #ifndef UNITTESTER_TEST_RESULT_CLASS_HPP
 #define UNITTESTER_TEST_RESULT_CLASS_HPP
 
+#include <fstream>
 #include "../third_party/json.hpp"
 #include "test_group_status_class.hpp"
-#include <fstream>
 
 class TestResult {
   static const std::string tests_str_;
@@ -43,7 +43,7 @@ class TestResult {
   void Merge(const TestResult& other) {
     json_storage_.merge_patch(other.json_storage_);
   }
-  void SerializeToJson(const std::string& path) {
+  void SerializeToJson(const std::string& path) const {
     std::ofstream new_file(path);
     new_file << json_storage_;
     new_file.close();
@@ -60,7 +60,8 @@ class TestResult {
     json_storage_ = other.json_storage_;
     return *this;
   }
-  std::unordered_map<std::string, TestGroupStatus> GetTestGroupStatusMap() {
+  std::unordered_map<std::string, TestGroupStatus> GetTestGroupStatusMap()
+      const {
     std::unordered_map<std::string, TestGroupStatus> answer;
     for (auto& group : json_storage_.items()) {
       std::string group_name = group.key();
