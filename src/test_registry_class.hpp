@@ -6,7 +6,7 @@
 #include <unordered_map>
 #include "test_class.hpp"
 #include "test_group_class.hpp"
-#include "test_result_class.hpp"
+#include "test_io_manager_class.hpp"
 
 class TestRegistry {
  public:
@@ -27,18 +27,22 @@ class TestRegistry {
   static TestResult ExecuteTest(const std::string& test_name) noexcept {
     TestResult test_result;
     if (test_all_.find(test_name) != test_all_.end()) {
-      test_result.AddTestStatus(test_all_[test_name]->Execute());
+      TestStatus test_status_temp(test_all_[test_name]->Execute());
+      TestIOManager::OutputTestStatus(test_status_temp);
+      test_result.AddTestStatus(test_status_temp);
     } else {
-      std::cerr << "ExecuteTest: there is no test known as "
-                << test_name << std::endl;
+      std::cerr << "ExecuteTest: there is no test known as " << test_name
+                << std::endl;
     }
     return test_result;
   }
   static TestResult ExecuteTestGroup(const std::string& group_name) noexcept {
     TestResult test_result;
     if (test_groups_.find(group_name) != test_groups_.end()) {
-      test_result.AddGroupStatus(
+      TestGroupStatus group_status_temp(
           test_groups_.find(group_name)->second.Execute());
+      TestIOManager::OutputGroupStatus(group_status_temp);
+      test_result.AddGroupStatus(group_status_temp);
     } else {
       std::cerr << "ExecuteTestGroup: there is no groups known as "
                 << group_name << std::endl;
@@ -48,7 +52,9 @@ class TestRegistry {
   static TestResult ExecuteTestAll() noexcept {
     TestResult tests_result;
     for (std::pair<const std::string, TestGroup>& curr_group : test_groups_) {
-      tests_result.AddGroupStatus(curr_group.second.Execute());
+      TestGroupStatus group_status_temp(curr_group.second.Execute());
+      TestIOManager::OutputGroupStatus(group_status_temp);
+      tests_result.AddGroupStatus(group_status_temp);
     }
     return tests_result;
   }
