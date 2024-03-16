@@ -17,6 +17,10 @@ class TestIOManager {
   static void ToggleOCerrStream() noexcept {
     O_CERR_STREAM_ENABLED = !O_CERR_STREAM_ENABLED;
   }
+  static void SwitchStreams() noexcept {
+    ToggleOStream();
+    ToggleOCerrStream();
+  }
   static void ToggleOJsonFile(const std::string& new_path = "") noexcept {
     O_JSONFILE_ENABLED = !O_JSONFILE_ENABLED;
     if (!new_path.empty()) {
