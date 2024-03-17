@@ -5,24 +5,24 @@
 #include "test_result_class.hpp"
 
 class TestIOManager {
-  static bool O_STREAM_ENABLED;
-  static bool O_CERR_STREAM_ENABLED;
-  static bool O_JSONFILE_ENABLED;
+  static bool o_stream_enabled_;
+  static bool o_cerr_stream_enabled_;
+  static bool o_json_file_enabled_;
   static TestResult general_test_output_;
 
  public:
   static void ToggleOStream() noexcept {
-    O_STREAM_ENABLED = !O_STREAM_ENABLED;
+    o_stream_enabled_ = !o_stream_enabled_;
   }
   static void ToggleOCerrStream() noexcept {
-    O_CERR_STREAM_ENABLED = !O_CERR_STREAM_ENABLED;
+    o_cerr_stream_enabled_ = !o_cerr_stream_enabled_;
   }
   static void SwitchStreams() noexcept {
     ToggleOStream();
     ToggleOCerrStream();
   }
   static void ToggleOJsonFile(const std::string& new_path = "") noexcept {
-    O_JSONFILE_ENABLED = !O_JSONFILE_ENABLED;
+    o_json_file_enabled_ = !o_json_file_enabled_;
     if (!new_path.empty()) {
       SetOutputJsonFilePath(new_path);
     }
@@ -31,44 +31,44 @@ class TestIOManager {
     }
   }
   static bool IsOStreamEnabled() noexcept {
-    return O_STREAM_ENABLED;
+    return o_stream_enabled_;
   }
   static bool IsOCerrStreamEnabled() noexcept {
-    return O_CERR_STREAM_ENABLED;
+    return o_cerr_stream_enabled_;
   }
   static bool IsOJsonFileEnabled() noexcept {
-    return O_JSONFILE_ENABLED;
+    return o_json_file_enabled_;
   }
   static void SetOutputJsonFilePath(const std::string& new_path) noexcept {
     general_test_output_.SetPathToAutoSave(new_path);
   }
   static void OutputTestStatus(const TestStatus& test_status) {
-    if (O_STREAM_ENABLED) {
+    if (o_stream_enabled_) {
       std::cout << test_status;
     }
-    if (O_CERR_STREAM_ENABLED) {
+    if (o_cerr_stream_enabled_) {
       std::cerr << test_status;
     }
-    if (O_JSONFILE_ENABLED) {
+    if (o_json_file_enabled_) {
       general_test_output_.AddTestStatus(test_status);
     }
   }
   static void OutputGroupStatus(const TestGroupStatus& group_status) {
-    if (O_STREAM_ENABLED) {
+    if (o_stream_enabled_) {
       std::cout << group_status;
     }
-    if (O_CERR_STREAM_ENABLED) {
+    if (o_cerr_stream_enabled_) {
       std::cerr << group_status;
     }
-    if (O_JSONFILE_ENABLED) {
+    if (o_json_file_enabled_) {
       general_test_output_.AddGroupStatus(group_status);
     }
   }
 };
 
 TestResult TestIOManager::general_test_output_;
-bool TestIOManager::O_STREAM_ENABLED = true;
-bool TestIOManager::O_CERR_STREAM_ENABLED = false;
-bool TestIOManager::O_JSONFILE_ENABLED = false;
+bool TestIOManager::o_stream_enabled_ = true;
+bool TestIOManager::o_cerr_stream_enabled_ = false;
+bool TestIOManager::o_json_file_enabled_ = false;
 
 #endif  //UNITTESTER_TEST_IO_MANAGER_CLASS_HPP

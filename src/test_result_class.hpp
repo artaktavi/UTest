@@ -6,13 +6,13 @@
 #include "test_group_status_class.hpp"
 
 class TestResult {
-  static const std::string tests_str_;
-  static const std::string res_str_;
-  static const std::string exec_str_;
-  static const std::string arg_1_str_;
-  static const std::string arg_2_str_;
-  static const std::string type_str_;
-  static const std::string commands_str_;
+  static const std::string TESTS_STR_;
+  static const std::string RES_STR_;
+  static const std::string EXEC_STR_;
+  static const std::string ARG_1_STR_;
+  static const std::string ARG_2_STR_;
+  static const std::string TYPE_STR_;
+  static const std::string COMMANDS_STR_;
   nlohmann::json json_storage_;
   std::string path_to_auto_save_ = "unit_tester_report.json";
   bool auto_save_enabled_ = false;
@@ -28,24 +28,24 @@ class TestResult {
     path_to_auto_save_ = path;
   }
   void AddTestStatus(const TestStatus& test) {
-    json_storage_[test.group_name][tests_str_][test.name][res_str_] =
+    json_storage_[test.group_name][TESTS_STR_][test.name][RES_STR_] =
         test.result;
-    json_storage_[test.group_name][tests_str_][test.name][exec_str_] =
+    json_storage_[test.group_name][TESTS_STR_][test.name][EXEC_STR_] =
         test.execution_time.count();
     for (const CommandStatus& command : test.commands_history) {
-      json_storage_[test.group_name][tests_str_][test.name][commands_str_]
-                   [std::to_string(command.line)][type_str_] = command.type;
-      json_storage_[test.group_name][tests_str_][test.name][commands_str_]
-                   [std::to_string(command.line)][res_str_] = command.result;
-      json_storage_[test.group_name][tests_str_][test.name][commands_str_]
-                   [std::to_string(command.line)][arg_1_str_] = command.arg_1;
-      json_storage_[test.group_name][tests_str_][test.name][commands_str_]
-                   [std::to_string(command.line)][arg_2_str_] = command.arg_2;
+      json_storage_[test.group_name][TESTS_STR_][test.name][COMMANDS_STR_]
+                   [std::to_string(command.line)][TYPE_STR_] = command.type;
+      json_storage_[test.group_name][TESTS_STR_][test.name][COMMANDS_STR_]
+                   [std::to_string(command.line)][RES_STR_] = command.result;
+      json_storage_[test.group_name][TESTS_STR_][test.name][COMMANDS_STR_]
+                   [std::to_string(command.line)][ARG_1_STR_] = command.arg_1;
+      json_storage_[test.group_name][TESTS_STR_][test.name][COMMANDS_STR_]
+                   [std::to_string(command.line)][ARG_2_STR_] = command.arg_2;
     }
   }
   void AddGroupStatus(const TestGroupStatus& group) {
-    json_storage_[group.group_name][res_str_] = group.result;
-    json_storage_[group.group_name][exec_str_] =
+    json_storage_[group.group_name][RES_STR_] = group.result;
+    json_storage_[group.group_name][EXEC_STR_] =
         group.group_execution_time.count();
     for (const TestStatus& test : group.tests_history) {
       AddTestStatus(test);
@@ -78,18 +78,18 @@ class TestResult {
       std::string group_name = group.key();
       answer.insert({group_name, TestGroupStatus(group_name)});
       answer.at(group_name).group_execution_time =
-          std::chrono::duration<double>(group.value()[exec_str_]);
-      answer.at(group_name).result = group.value()[res_str_];
-      for (auto& test : group.value()[tests_str_].items()) {
+          std::chrono::duration<double>(group.value()[EXEC_STR_]);
+      answer.at(group_name).result = group.value()[RES_STR_];
+      for (auto& test : group.value()[TESTS_STR_].items()) {
         TestStatus test_temp(test.key(), group_name);
-        test_temp.result = test.value()[res_str_];
+        test_temp.result = test.value()[RES_STR_];
         test_temp.execution_time =
-            std::chrono::duration<double>(test.value()[exec_str_]);
-        for (auto& command : test.value()[commands_str_].items()) {
+            std::chrono::duration<double>(test.value()[EXEC_STR_]);
+        for (auto& command : test.value()[COMMANDS_STR_].items()) {
           test_temp.commands_history.emplace_back(
-              command.value()[type_str_], stoi(command.key()),
-              command.value()[arg_1_str_], command.value()[arg_2_str_],
-              command.value()[res_str_]);
+              command.value()[TYPE_STR_], stoi(command.key()),
+              command.value()[ARG_1_STR_], command.value()[ARG_2_STR_],
+              command.value()[RES_STR_]);
         }
         answer.at(group_name).tests_history.push_back(test_temp);
       }
@@ -109,12 +109,12 @@ class TestResult {
   }
 };
 
-const std::string TestResult::tests_str_ = "tests";
-const std::string TestResult::res_str_ = "res";
-const std::string TestResult::exec_str_ = "exec";
-const std::string TestResult::arg_1_str_ = "arg_1";
-const std::string TestResult::arg_2_str_ = "arg_2";
-const std::string TestResult::type_str_ = "type";
-const std::string TestResult::commands_str_ = "commands";
+const std::string TestResult::TESTS_STR_ = "tests";
+const std::string TestResult::RES_STR_ = "res";
+const std::string TestResult::EXEC_STR_ = "exec";
+const std::string TestResult::ARG_1_STR_ = "arg_1";
+const std::string TestResult::ARG_2_STR_ = "arg_2";
+const std::string TestResult::TYPE_STR_ = "type";
+const std::string TestResult::COMMANDS_STR_ = "commands";
 
 #endif  //UNITTESTER_TEST_RESULT_CLASS_HPP
