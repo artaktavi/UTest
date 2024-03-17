@@ -1,10 +1,13 @@
 #ifndef UNITTESTER_TEST_GROUP_CLASS_HPP
 #define UNITTESTER_TEST_GROUP_CLASS_HPP
 
+#ifndef UNITTESTER_TEST_CLASS_HPP
 #include "test_class.hpp"
-#include "test_group_status_class.hpp"
+#endif
 
-#include <vector>
+#ifndef UNITTESTER_TEST_GROUP_STATUS_CLASS_HPP
+#include "test_group_status_class.hpp"
+#endif
 
 class TestGroup {
  private:

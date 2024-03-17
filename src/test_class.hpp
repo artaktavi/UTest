@@ -1,20 +1,12 @@
 #ifndef UNITTESTER_TEST_CLASS_HPP
 #define UNITTESTER_TEST_CLASS_HPP
 
-#ifndef UNITTESTER_COMMAND_STATUS_CLASS_HPP
-#include "command_status_class.hpp"
-#endif
+#include <algorithm>
+#include <set>
 
 #ifndef UNITTESTER_TEST_STATUS_CLASS_HPP
 #include "test_status_class.hpp"
 #endif
-
-// TEST INCLUDE
-//#include <iostream>
-#include <algorithm>
-#include <chrono>
-#include <set>
-#include <vector>
 
 class Test {
  private:
@@ -28,11 +20,6 @@ class Test {
   int line_temp_ = 0;  // necessary for memorization of __LINE__ in commands
   static const std::set<std::string> failed_strings;
   void UpdateStatus(const CommandStatus& command_result) {
-    //    std::cout << "Command type: " << command_result.type << '\n'
-    //              << "Command arg_1: " << command_result.arg_1 << '\n'
-    //              << "Command arg_2: " << command_result.arg_2 << '\n'
-    //              << "Result: " << command_result.result << '\n'
-    //              << "Line: " << command_result.line << std::endl;
     if (failed_strings.find(command_result.result) != failed_strings.end()) {
       is_passed_temp_ = false;
     }

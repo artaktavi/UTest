@@ -1,12 +1,15 @@
 #ifndef UNITTESTER_TEST_REGISTRY_CLASS_HPP
 #define UNITTESTER_TEST_REGISTRY_CLASS_HPP
 
-// Should think about includes and transfer them to common namespace
-#include <string>
 #include <unordered_map>
-#include "test_class.hpp"
+
+#ifndef UNITTESTER_TEST_GROUP_CLASS_HPP
 #include "test_group_class.hpp"
+#endif
+
+#ifndef UNITTESTER_TEST_IO_MANAGER_CLASS_HPP
 #include "test_io_manager_class.hpp"
+#endif
 
 class TestRegistry {
   static std::unordered_map<std::string, TestGroup> test_groups_;

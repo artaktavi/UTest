@@ -1,7 +1,9 @@
 #ifndef UNITTESTER_TEST_DEFINE_HPP
 #define UNITTESTER_TEST_DEFINE_HPP
 
+#ifndef UNITTESTER_TEST_REGISTRY_CLASS_HPP
 #include "test_registry_class.hpp"
+#endif
 
 #define TEST(test_name, test_group)                          \
   class test_name : public Test {                            \

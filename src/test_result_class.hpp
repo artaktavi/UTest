@@ -2,8 +2,13 @@
 #define UNITTESTER_TEST_RESULT_CLASS_HPP
 
 #include <fstream>
+
+// Make this include normal
 #include "../third_party/json.hpp"
+
+#ifndef UNITTESTER_GROUP_STATUS_CLASS_HPP
 #include "test_group_status_class.hpp"
+#endif
 
 class TestResult {
   static const std::string TESTS_STR_;

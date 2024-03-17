@@ -2,7 +2,10 @@
 #define UNITTESTER_STD_OSTREAM_TEST_HPP
 
 #include <ostream>
+
+#ifndef UNITTESTER_RESULT_CLASS_HPP
 #include "test_result_class.hpp"
+#endif
 
 std::ostream& operator<<(std::ostream& o_stream,
                          const CommandStatus& command_status) {
