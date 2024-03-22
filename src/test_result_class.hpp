@@ -1,14 +1,10 @@
-#ifndef UNITTESTER_TEST_RESULT_CLASS_HPP
-#define UNITTESTER_TEST_RESULT_CLASS_HPP
+#pragma once
 
 #include <fstream>
 
 // Make this include normal
 #include "../third_party/json.hpp"
-
-#ifndef UNITTESTER_GROUP_STATUS_CLASS_HPP
 #include "test_group_status_class.hpp"
-#endif
 
 class TestResult {
   static const std::string TESTS_STR_;
@@ -121,5 +117,3 @@ const std::string TestResult::ARG_1_STR_ = "arg_1";
 const std::string TestResult::ARG_2_STR_ = "arg_2";
 const std::string TestResult::TYPE_STR_ = "type";
 const std::string TestResult::COMMANDS_STR_ = "commands";
-
-#endif  //UNITTESTER_TEST_RESULT_CLASS_HPP

@@ -1,5 +1,4 @@
-#ifndef UNITTESTER_COMMAND_STATUS_CLASS_HPP
-#define UNITTESTER_COMMAND_STATUS_CLASS_HPP
+#pragma once
 
 #include <string>
 
@@ -23,5 +22,3 @@ struct CommandStatus {
         arg_1(std::move(c_arg_1)),
         result(std::move(c_result)) {}
 };
-
-#endif  //UNITTESTER_COMMAND_STATUS_CLASS_HPP

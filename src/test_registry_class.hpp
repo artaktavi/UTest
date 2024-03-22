@@ -1,15 +1,9 @@
-#ifndef UNITTESTER_TEST_REGISTRY_CLASS_HPP
-#define UNITTESTER_TEST_REGISTRY_CLASS_HPP
+#pragma once
 
 #include <unordered_map>
 
-#ifndef UNITTESTER_TEST_GROUP_CLASS_HPP
 #include "test_group_class.hpp"
-#endif
-
-#ifndef UNITTESTER_TEST_IO_MANAGER_CLASS_HPP
 #include "test_io_manager_class.hpp"
-#endif
 
 class TestRegistry {
   static std::unordered_map<std::string, TestGroup> test_groups_;
@@ -65,5 +59,3 @@ class TestRegistry {
 
 std::unordered_map<std::string, TestGroup> TestRegistry::test_groups_;
 std::unordered_map<std::string, Test*> TestRegistry::test_all_;
-
-#endif  //UNITTESTER_TEST_REGISTRY_CLASS_HPP

@@ -1,5 +1,4 @@
-#ifndef UNITTESTER_ASSERT_TRUE_DEFINE_HPP
-#define UNITTESTER_ASSERT_TRUE_DEFINE_HPP
+#pragma once
 
 #define ASSERT_TRUE(statement)                                              \
   line_temp_ = __LINE__;                                                    \
@@ -17,5 +16,3 @@
                                "fatal_failed_exception"));                  \
     return;                                                                 \
   }
-
-#endif  //UNITTESTER_ASSERT_TRUE_DEFINE_HPP

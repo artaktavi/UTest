@@ -1,12 +1,9 @@
-#ifndef UNITTESTER_TEST_CLASS_HPP
-#define UNITTESTER_TEST_CLASS_HPP
+#pragma once
 
 #include <algorithm>
 #include <set>
 
-#ifndef UNITTESTER_TEST_STATUS_CLASS_HPP
 #include "test_status_class.hpp"
-#endif
 
 class Test {
  private:
@@ -50,5 +47,3 @@ class Test {
 
 const std::set<std::string> Test::failed_strings = {
     "failed", "failed_exception", "fatal_failed", "fatal_failed_exception"};
-
-#endif  //UNITTESTER_TEST_CLASS_HPP

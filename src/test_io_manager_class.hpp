@@ -1,9 +1,6 @@
-#ifndef UNITTESTER_TEST_IO_MANAGER_CLASS_HPP
-#define UNITTESTER_TEST_IO_MANAGER_CLASS_HPP
+#pragma once
 
-#ifndef UNITTESTER_STD_OSTREAM_TEST_HPP
 #include "std_ostream_test.hpp"
-#endif
 
 class TestIOManager {
   static bool o_stream_enabled_;
@@ -71,5 +68,3 @@ TestResult TestIOManager::general_test_output_;
 bool TestIOManager::o_stream_enabled_ = true;
 bool TestIOManager::o_cerr_stream_enabled_ = false;
 bool TestIOManager::o_json_file_enabled_ = false;
-
-#endif  //UNITTESTER_TEST_IO_MANAGER_CLASS_HPP

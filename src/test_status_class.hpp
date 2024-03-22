@@ -1,12 +1,9 @@
-#ifndef UNITTESTER_TEST_STATUS_CLASS_HPP
-#define UNITTESTER_TEST_STATUS_CLASS_HPP
+#pragma once
 
 #include <chrono>
 #include <vector>
 
-#ifndef UNITTESTER_COMMAND_STATUS_CLASS_HPP
 #include "command_status_class.hpp"
-#endif
 
 struct TestStatus {
   std::string name;
@@ -19,5 +16,3 @@ struct TestStatus {
       : name(std::move(name)), group_name(std::move(group_name)) {}
   TestStatus(const TestStatus& other) = default;
 };
-
-#endif  //UNITTESTER_TEST_STATUS_CLASS_HPP

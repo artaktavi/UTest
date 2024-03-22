@@ -1,11 +1,8 @@
-#ifndef UNITTESTER_STD_OSTREAM_TEST_HPP
-#define UNITTESTER_STD_OSTREAM_TEST_HPP
+#pragma once
 
 #include <ostream>
 
-#ifndef UNITTESTER_RESULT_CLASS_HPP
 #include "test_result_class.hpp"
-#endif
 
 std::ostream& operator<<(std::ostream& o_stream,
                          const CommandStatus& command_status) {
@@ -48,5 +45,3 @@ std::ostream& operator<<(std::ostream& o_stream, const TestResult& test_res) {
   }
   return o_stream;
 }
-
-#endif  //UNITTESTER_STD_OSTREAM_TEST_HPP

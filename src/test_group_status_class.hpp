@@ -1,11 +1,8 @@
-#ifndef UNITTESTER_TEST_GROUP_STATUS_CLASS_HPP
-#define UNITTESTER_TEST_GROUP_STATUS_CLASS_HPP
-
-#ifndef UNITTESTER_TEST_STATUS_CLASS_HPP
-#include "test_status_class.hpp"
-#endif
+#pragma once
 
 #include <vector>
+
+#include "test_status_class.hpp"
 
 struct TestGroupStatus {
   std::string group_name;
@@ -16,5 +13,3 @@ struct TestGroupStatus {
   TestGroupStatus(const TestGroupStatus& other) = default;
   TestGroupStatus(std::string name) : group_name(std::move(name)) {}
 };
-
-#endif  //UNITTESTER_TEST_GROUP_STATUS_CLASS_HPP

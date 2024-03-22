@@ -1,13 +1,7 @@
-#ifndef UNITTESTER_TEST_GROUP_CLASS_HPP
-#define UNITTESTER_TEST_GROUP_CLASS_HPP
+#pragma once
 
-#ifndef UNITTESTER_TEST_CLASS_HPP
 #include "test_class.hpp"
-#endif
-
-#ifndef UNITTESTER_TEST_GROUP_STATUS_CLASS_HPP
 #include "test_group_status_class.hpp"
-#endif
 
 class TestGroup {
  private:
@@ -33,5 +27,3 @@ class TestGroup {
     return answer;
   }
 };
-
-#endif  //UNITTESTER_TEST_GROUP_CLASS_HPP
