@@ -2,8 +2,8 @@
 
 #include <unordered_map>
 
-#include "test_group_class.hpp"
-#include "test_io_manager_class.hpp"
+#include "test_group.hpp"
+#include "test_io_manager.hpp"
 
 class TestRegistry {
   static std::unordered_map<std::string, TestGroup> test_groups_;

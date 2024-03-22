@@ -1,7 +1,7 @@
 #pragma once
 
 #include "test_class.hpp"
-#include "test_group_status_class.hpp"
+#include "test_group_status.hpp"
 
 class TestGroup {
  private:
