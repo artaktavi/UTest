@@ -3,8 +3,8 @@
 
 #include <cassert>
 #include <iostream>
-#include "../../src/asserts/assert_true_define.hpp"
-#include "../../src/test_define.hpp"
+#include "../../src/TestDefine.hpp"
+#include "../../src/asserts/AssertTrueDefine.hpp"
 
 TEST(AssertTrueTest, AssertTests) {
   ASSERT_TRUE((2 * 2) == 4)

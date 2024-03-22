@@ -1,6 +1,6 @@
 #pragma once
 
-#include "StdOstreamTest.hpp"
+#include <StdOstreamTest.hpp>
 
 class TestIOManager {
   static bool o_stream_enabled_;

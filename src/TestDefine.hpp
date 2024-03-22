@@ -1,6 +1,6 @@
 #pragma once
 
-#include "TestRegistry.hpp"
+#include <TestRegistry.hpp>
 
 #define TEST(test_name, test_group)                          \
   class test_name : public Test {                            \

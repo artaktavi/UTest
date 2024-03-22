@@ -2,9 +2,8 @@
 
 #include <fstream>
 
-// Make this include normal
-#include "../third_party/json.hpp"
-#include "TestGroupStatus.hpp"
+#include <json.hpp>
+#include <TestGroupStatus.hpp>
 
 class TestResult {
   static const std::string TESTS_STR_;

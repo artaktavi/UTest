@@ -2,7 +2,7 @@
 
 #include <ostream>
 
-#include "TestResult.hpp"
+#include <TestResult.hpp>
 
 std::ostream& operator<<(std::ostream& o_stream,
                          const CommandStatus& command_status) {

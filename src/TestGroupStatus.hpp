@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "TestStatus.hpp"
+#include <TestStatus.hpp>
 
 struct TestGroupStatus {
   std::string group_name;
