@@ -3,7 +3,7 @@
 #include <chrono>
 #include <vector>
 
-#include "command_status.hpp"
+#include "CommandStatus.hpp"
 
 struct TestStatus {
   std::string name;

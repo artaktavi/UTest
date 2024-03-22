@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <set>
 
-#include "test_status.hpp"
+#include "TestStatus.hpp"
 
 class Test {
  private:
