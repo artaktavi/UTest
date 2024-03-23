@@ -72,4 +72,14 @@ All of these methods return `TestResult` class, that you can interact to.
 
 
 
+## Running tests for UTest
+
+Clone UTest repository, create some folder for test build, for example`tmp/`.
+
+Move to this folder and run `cmake -DBUILD_TESTS=ON ..` and `make` after that. Now to run tests just use `./tests`.
+
+That's it! You have tested library for testing :)
+
+
+
 ## Extra docs links

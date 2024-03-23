@@ -16,17 +16,17 @@ target_include_directories(NlohmannJsonLibrary PUBLIC ${NLOHMANN_JSON_LIBRARY_SO
 
 target_link_libraries(UTestLibrary NlohmannJsonLibrary)
 
-option(TESTS "Running tests for UTest" ON)
-option(DEBUG "Running debug main.cpp" OFF)
+option(BUILD_TESTS "Running tests for UTest" OFF)
+option(BUILD_DEBUG "Running debug main.cpp" OFF)
 
-if (TESTS)
+if (BUILD_TESTS)
     add_executable(tests tests/tests.cpp)
     set(TESTS_SOURCE_DIRS tests/ tests/assert_tests/)
     target_include_directories(tests PUBLIC ${TESTS_SOURCE_DIRS})
     target_link_libraries(tests UTestLibrary)
 endif()
 
-if (DEBUG)
+if (BUILD_DEBUG)
     add_executable(debug tmp/main.cpp)
     target_link_libraries(debug UTestLibrary)
 endif()
