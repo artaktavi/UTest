@@ -66,6 +66,13 @@ All of these methods return `TestResult` class, that you can interact to.
 
 ## Examples
 
+There are some examples of using UTest in `examples/` folder. If you want to run one of them, use instructions:
+
+1. Make temp folder in UTest repository like `build/` or `tmp/`
+2. Move to it using `cd tmp` and run cmake: `cmake -DBUILD_EXAMPLES=ON ..`
+3. Run `make`
+4. Examples are built, so u need to choose one and run via `examples/<example_name>`
+
 
 
 ## Installation
@@ -74,9 +81,9 @@ All of these methods return `TestResult` class, that you can interact to.
 
 ## Running tests for UTest
 
-Clone UTest repository, create some folder for test build, for example`tmp/`.
+Clone UTest repository, create some folder inside for test build, for example `tmp/` or `build/`.
 
-Move to this folder and run `cmake -DBUILD_TESTS=ON ..` and `make` after that. Now to run tests just use `./tests`.
+Move to this folder and run `cmake -DBUILD_TESTS=ON ..` and `make` after that. Now tests are built and you just need to use `tests/tests` for tests execution.
 
 That's it! You have tested library for testing :)
 
