@@ -11,5 +11,5 @@ void AssertTests() {
       res_2.GetTestGroupStatusMap().begin()->second.tests_history[0].result ==
       "failed");
   assert(AssertTrueTestBreakFailed == false);
-  std::cout << "AssertTests passed.\n";
+  std::cout << " - AssertTests passed.\n";
 }
