@@ -12,4 +12,9 @@ struct TestGroupStatus {
   TestGroupStatus() = delete;
   TestGroupStatus(const TestGroupStatus& other) = default;
   TestGroupStatus(std::string name) : group_name(std::move(name)) {}
+  TestGroupStatus(TestGroupStatus&& other) noexcept
+      : group_name(std::move(other.group_name)),
+        tests_history(std::move(other.tests_history)),
+        group_execution_time(other.group_execution_time),
+        result(std::move(other.result)) {}
 };

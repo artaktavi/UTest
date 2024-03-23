@@ -1,7 +1,7 @@
-#include <iostream>
-#include "assert_tests/assert_tests.hpp"
+#include <AssertTests.hpp>
 
 int main() {
+  TestIOManager::ToggleOStream();
   AssertTests();
   return 0;
 }

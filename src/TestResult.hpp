@@ -3,12 +3,14 @@
 #include <fstream>
 
 #include <json.hpp>
+
 #include <TestGroupStatus.hpp>
 
 class TestResult {
   static const std::string TESTS_STR_;
   static const std::string RES_STR_;
   static const std::string EXEC_STR_;
+  static const std::string GROUP_STR_;
   static const std::string ARG_1_STR_;
   static const std::string ARG_2_STR_;
   static const std::string TYPE_STR_;
@@ -28,10 +30,16 @@ class TestResult {
     path_to_auto_save_ = path;
   }
   void AddTestStatus(const TestStatus& test) {
+    if (json_storage_.find(test.group_name) == json_storage_.end()) {
+      json_storage_[test.group_name][RES_STR_] = "undefined";
+      json_storage_[test.group_name][EXEC_STR_] = 0.0;
+    }
     json_storage_[test.group_name][TESTS_STR_][test.name][RES_STR_] =
         test.result;
     json_storage_[test.group_name][TESTS_STR_][test.name][EXEC_STR_] =
         test.execution_time.count();
+    json_storage_[test.group_name][TESTS_STR_][test.name][GROUP_STR_] =
+        test.group_name;
     for (const CommandStatus& command : test.commands_history) {
       json_storage_[test.group_name][TESTS_STR_][test.name][COMMANDS_STR_]
                    [std::to_string(command.line)][TYPE_STR_] = command.type;
@@ -67,10 +75,6 @@ class TestResult {
     }
     json_storage_ = nlohmann::json::parse(json_input_file);
   }
-  TestResult& operator=(const TestResult& other) {
-    json_storage_ = other.json_storage_;
-    return *this;
-  }
   std::unordered_map<std::string, TestGroupStatus> GetTestGroupStatusMap()
       const {
     std::unordered_map<std::string, TestGroupStatus> answer;
@@ -100,6 +104,7 @@ class TestResult {
   TestResult(const std::string& path_to_json) {
     DeserializeFromJson(path_to_json);
   }
+  TestResult(const TestResult& other) = default;
   TestResult(const TestGroupStatus& group) { AddGroupStatus(group); }
   TestResult(const TestStatus& test) { AddTestStatus(test); }
   ~TestResult() {
@@ -116,3 +121,4 @@ const std::string TestResult::ARG_1_STR_ = "arg_1";
 const std::string TestResult::ARG_2_STR_ = "arg_2";
 const std::string TestResult::TYPE_STR_ = "type";
 const std::string TestResult::COMMANDS_STR_ = "commands";
+const std::string TestResult::GROUP_STR_ = "group_name";
