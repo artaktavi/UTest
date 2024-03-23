@@ -23,7 +23,7 @@ TEST(MyTestName, Common) {
 }
 ```
 
-Test will register automatically, so that's all you need to do.
+Test will register automatically, so that's all you need to do to create test.
 
 
 
