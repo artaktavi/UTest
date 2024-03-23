@@ -18,6 +18,25 @@ class TestResult {
   nlohmann::json json_storage_;
   std::string path_to_auto_save_ = "unit_tester_report.json";
   bool auto_save_enabled_ = false;
+  /*
+  TestStatus ConstructTestStatus(nlohmann::json::const_iterator& it) const {
+    TestStatus new_test_status(it.key(), it.value()[GROUP_STR_]);
+    new_test_status.result = it.value()[RES_STR_];
+    new_test_status.execution_time =
+        std::chrono::duration<double>(it.value()[EXEC_STR_]);
+    for (auto& command : it.value()[COMMANDS_STR_].items()) {
+      new_test_status.commands_history.emplace_back(
+          command.value()[TYPE_STR_], stoi(command.key()),
+          command.value()[ARG_1_STR_], command.value()[ARG_2_STR_],
+          command.value()[RES_STR_]);
+    }
+    return new_test_status;
+  }
+  TestGroupStatus ConstructTestGroupStatus(const nlohmann::json::const_iterator& it) const {
+    TestGroupStatus new_group_status(it.key());
+
+  }
+  */
 
  public:
   void ToggleAutoSave() {
@@ -62,9 +81,13 @@ class TestResult {
   void Merge(const TestResult& other) {
     json_storage_.merge_patch(other.json_storage_);
   }
-  void SerializeToJson(const std::string& path) const {
-    std::ofstream new_file(path);
+  void SerializeToJson(std::string path = "") const {
+    if (path.empty()) {
+      path = path_to_auto_save_;
+    }
+    std::ofstream new_file(path, std::ios::out);
     new_file << json_storage_;
+    new_file << std::flush;
     new_file.close();
   }
   void DeserializeFromJson(const std::string& path) {
@@ -96,9 +119,27 @@ class TestResult {
               command.value()[RES_STR_]);
         }
         answer.at(group_name).tests_history.push_back(test_temp);
+        // answer.at(group_name).tests_history.push_back(std::move(ConstructTestGroupStatus(test)));
       }
     }
     return answer;
+  }
+//  TestGroupStatus GetTestGroupStatus(const std::string& group_name) const {
+//    auto it = json_storage_.find(group_name);
+//    if (it != json_storage_.end()) {
+//      it.value();
+//    } else {
+//      std::cerr << "Error: UTest: TestResult: GetTestGroupStatus: there is no "
+//                   "group with given name"
+//                << std::endl;
+//    }
+//  }
+//  TestStatus GetTestStatus(const std::string& test_name) const {}
+  TestResult& operator=(const TestResult& other) {
+    json_storage_ = other.json_storage_;
+    auto_save_enabled_ = other.auto_save_enabled_;
+    path_to_auto_save_ = other.path_to_auto_save_;
+    return *this;
   }
   TestResult() = default;
   TestResult(const std::string& path_to_json) {
