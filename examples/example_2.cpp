@@ -1,6 +1,6 @@
-#include "AssertTrueDefine.hpp"
-#include "ExpectTrueDefine.hpp"
-#include "TestDefine.hpp"
+#include <AssertTrueDefine.hpp>
+#include <ExpectTrueDefine.hpp>
+#include <TestDefine.hpp>
 
 int Fib(int num) {
   if (num < 2) {
@@ -14,9 +14,9 @@ int Fact(int num) {
 }
 
 struct S {
-   int a;
-   int b;
-   S() = default;
+  int a;
+  int b;
+  S() = default;
 };
 
 TEST(Fibonacci, Functions) {
@@ -27,6 +27,7 @@ TEST(Fibonacci, Functions) {
 
 TEST(Factorial, Functions) {
   ASSERT_TRUE(Fact(0) == 1)
+  // assert above will be failed, so next expects won't be checked
   EXPECT_TRUE(Fact(4) == 24)
   EXPECT_TRUE(Fact(6) == 720)
 }
@@ -38,12 +39,26 @@ TEST(SDefaultFields, Structs) {
 }
 
 int main() {
+  // get info from "Functions" tests group
   TestResult functions_tests = TestRegistry::ExecuteTestGroup("Functions");
+
+  // saving them into json file
   functions_tests.SerializeToJson("example_2_functions.json");
+
+  // get info from "Structs" tests group
   TestResult structs_tests = TestRegistry::ExecuteTestGroup("Structs");
+
+  // saving into json file
   structs_tests.SerializeToJson("example_2_structs.json");
+
+  // creating TestResult object to saving all tests we have
   TestResult all_tests = structs_tests;
+
+  // merging "Functions" tests group into "Structs"
   all_tests.Merge(functions_tests);
+
+  // saving all tests we have
   all_tests.SerializeToJson("example_2_tests.json");
+
   return 0;
 }
