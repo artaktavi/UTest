@@ -42,7 +42,7 @@ class TestResult {
   void ToggleAutoSave() {
     auto_save_enabled_ = !auto_save_enabled_;
   }
-  bool IsAutoSaveEnabled() {
+  bool IsAutoSaveEnabled() const {
     return auto_save_enabled_;
   }
   void SetPathToAutoSave(const std::string& path) {
@@ -137,8 +137,6 @@ class TestResult {
 //  TestStatus GetTestStatus(const std::string& test_name) const {}
   TestResult& operator=(const TestResult& other) {
     json_storage_ = other.json_storage_;
-    auto_save_enabled_ = other.auto_save_enabled_;
-    path_to_auto_save_ = other.path_to_auto_save_;
     return *this;
   }
   TestResult() = default;

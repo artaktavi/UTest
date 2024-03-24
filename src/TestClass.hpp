@@ -16,9 +16,9 @@ class Test {
 
  protected:
   int line_temp_ = 0;  // necessary for memorization of __LINE__ in commands
-  static const std::set<std::string> failed_strings;
+  static const std::set<std::string> FAILED_STRINGS;
   void UpdateStatus(const CommandStatus& command_result) {
-    if (failed_strings.find(command_result.result) != failed_strings.end()) {
+    if (FAILED_STRINGS.find(command_result.result) != FAILED_STRINGS.end()) {
       is_passed_temp_ = false;
     }
     if (commands_vec_ == nullptr) {
@@ -46,5 +46,5 @@ class Test {
   }
 };
 
-const std::set<std::string> Test::failed_strings = {
+const std::set<std::string> Test::FAILED_STRINGS = {
     "failed", "failed_exception", "fatal_failed", "fatal_failed_exception"};

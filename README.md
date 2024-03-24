@@ -69,7 +69,7 @@ All of these methods return `TestResult` class, that you can interact to.
 There are some examples of using UTest in `examples/` folder.
 
 - `example_1`  is about tests running
-- `example_2`  show how to manage with `TestResult` objects and save them into json (and load)
+- `example_2`  shows how to manage with `TestResult` objects and save them into json (and load)
 - `example_3`  describes how set up auto-output and auto-saving into json
 
 If you want to run one of them, use instruction:

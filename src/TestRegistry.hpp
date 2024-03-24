@@ -8,8 +8,8 @@
 class TestRegistry {
   static std::unordered_map<std::string, TestGroup> test_groups_;
   static std::unordered_map<std::string, Test*> test_all_;
- public:
 
+ public:
   static void RegisterTest(const std::string& name,
                            const std::string& group_name, Test* test) {
     //    !!!!
