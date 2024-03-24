@@ -51,8 +51,9 @@ int main() {
   // saving into json file
   structs_tests.SerializeToJson("example_2_structs.json");
 
-  // creating TestResult object to saving all tests we have
-  TestResult all_tests = structs_tests;
+  // creating TestResult object from "example_2_structs.json"
+  TestResult all_tests;
+  all_tests.DeserializeFromJson("example_2_structs.json");
 
   // merging "Functions" tests group into "Structs"
   all_tests.Merge(functions_tests);
