@@ -2,20 +2,38 @@
 #include <ExpectTrueDefine.hpp>
 #include <TestDefine.hpp>
 
-int Fib(int num) {
+#define UNREACHABLE \
+  abort();
+
+int64_t Fib(int64_t num) {
   if (num < 2) {
     return num;
   }
-  return Fib(num - 1) + Fib(num - 2);
+  int64_t prev = 0;
+  int64_t last = 1;
+  --num;
+  while (num > 0) {
+    last += prev;
+    prev = last - prev;
+    --num;
+  }
+  return last;
 }
 
-int Fact(int num) {
-  return num <= 1 ? num : Fact(num - 1 ) * num;
+int64_t Fact(int64_t num) {
+  if (num < 2) {
+    return 1;
+  }
+  int64_t tmp = 1;
+  for (int64_t ind = 2; ind <= num; ++ind) {
+    tmp *= ind;
+  }
+  return tmp;
 }
 
 struct S {
-  int a;
-  int b;
+  int32_t a;
+  int32_t b;
   S() = default;
 };
 

@@ -15,7 +15,7 @@ class Test {
   virtual void TestBody() = 0;
 
  protected:
-  int line_temp_ = 0;  // necessary for memorization of __LINE__ in commands
+  uint32_t line_temp_ = 0;  // necessary for memorization of __LINE__ in commands
   static const std::set<std::string> FAILED_STRINGS;
   void UpdateStatus(const CommandStatus& command_result) {
     if (FAILED_STRINGS.find(command_result.result) != FAILED_STRINGS.end()) {
