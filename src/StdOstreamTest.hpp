@@ -1,7 +1,6 @@
 #pragma once
 
-#include <ostream>
-
+#include <ConsoleColor.hpp>
 #include <TestResult.hpp>
 
 std::ostream& operator<<(std::ostream& o_stream,
