@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ConsoleColors.hpp>
 #include <StdOstreamTest.hpp>
 
 class TestIOManager {
