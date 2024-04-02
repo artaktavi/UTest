@@ -18,8 +18,8 @@ class TestGroup {
     const auto start_time = std::chrono::high_resolution_clock::now();
     for (Test* test : tests_) {
       answer.tests_history.push_back(test->Execute());
-      if (answer.tests_history.back().result == "failed") {
-        answer.result = "failed";
+      if (answer.tests_history.back().result == KEYWORD_FAILED) {
+        answer.result = KEYWORD_FAILED;
       }
     }
     const auto stop_time = std::chrono::high_resolution_clock::now();

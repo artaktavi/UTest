@@ -1,18 +1,20 @@
 #pragma once
 
-#define ASSERT_TRUE(statement)                                              \
-  line_temp_ = __LINE__;                                                    \
-  try {                                                                     \
-    if (statement) {                                                        \
-      UpdateStatus(                                                         \
-          CommandStatus("ASSERT_TRUE", line_temp_, #statement, "succeed")); \
-    } else {                                                                \
-      UpdateStatus(CommandStatus("ASSERT_TRUE", line_temp_, #statement,     \
-                                 "fatal_failed"));                          \
-      return;                                                               \
-    }                                                                       \
-  } catch (...) {                                                           \
-    UpdateStatus(CommandStatus("ASSERT_TRUE", line_temp_, #statement,       \
-                               "fatal_failed_exception"));                  \
-    return;                                                                 \
+#include <KeyWordsDefine.hpp>
+
+#define ASSERT_TRUE(statement)                                          \
+  line_temp_ = __LINE__;                                                \
+  try {                                                                 \
+    if (statement) {                                                    \
+      UpdateStatus(CommandStatus("ASSERT_TRUE", line_temp_, #statement, \
+                                 KEYWORD_PASSED));                      \
+    } else {                                                            \
+      UpdateStatus(CommandStatus("ASSERT_TRUE", line_temp_, #statement, \
+                                 KEYWORD_FATAL_FAILED));                \
+      return;                                                           \
+    }                                                                   \
+  } catch (...) {                                                       \
+    UpdateStatus(CommandStatus("ASSERT_TRUE", line_temp_, #statement,   \
+                               KEYWORD_EXCEPTION_FATAL_FAILED));        \
+    return;                                                             \
   }

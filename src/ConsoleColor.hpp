@@ -13,7 +13,7 @@ struct ConsoleColor {
   static std::string GetColorCode(const std::string& color) noexcept {
     auto it = console_colors_.find(color);
     if (it == console_colors_.end()) {
-      return std::string();
+      return {};
     }
     return it->second;
   }

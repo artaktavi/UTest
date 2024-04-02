@@ -1,9 +1,10 @@
 #pragma once
 
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <set>
 
+#include <KeyWordsDefine.hpp>
 #include <TestStatus.hpp>
 
 class Test {
@@ -15,14 +16,14 @@ class Test {
   virtual void TestBody() = 0;
 
  protected:
-  uint32_t line_temp_ = 0;  // necessary for memorization of __LINE__ in commands
+  uint32_t line_temp_ = 0; // necessary for memorization of __LINE__ in commands
   static const std::set<std::string> FAILED_STRINGS;
   void UpdateStatus(const CommandStatus& command_result) {
     if (FAILED_STRINGS.find(command_result.result) != FAILED_STRINGS.end()) {
       is_passed_temp_ = false;
     }
     if (commands_vec_ == nullptr) {
-      std::cerr << "Test : UpdateStatus : no vector to push command status";
+      std::cerr << "Test : UpdateStatus : no vector to push command status\n";
     } else {
       commands_vec_->push_back(command_result);
     }
@@ -40,11 +41,12 @@ class Test {
     TestBody();
     const auto stop_time = std::chrono::high_resolution_clock::now();
     answer.execution_time = stop_time - start_time;
-    answer.result = is_passed_temp_ ? "succeed" : "failed";
+    answer.result = is_passed_temp_ ? KEYWORD_PASSED : KEYWORD_FAILED;
     commands_vec_ = nullptr;
     return answer;
   }
 };
 
 const std::set<std::string> Test::FAILED_STRINGS = {
-    "failed", "failed_exception", "fatal_failed", "fatal_failed_exception"};
+    KEYWORD_FAILED, KEYWORD_EXCEPTION_FAILED, KEYWORD_FATAL_FAILED,
+    KEYWORD_EXCEPTION_FATAL_FAILED};
