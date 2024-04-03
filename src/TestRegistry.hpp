@@ -3,7 +3,6 @@
 #include <unordered_map>
 
 #include <TestGroup.hpp>
-#include <TestIOManager.hpp>
 
 class TestRegistry {
   static std::unordered_map<std::string, TestGroup> test_groups_;
@@ -25,9 +24,7 @@ class TestRegistry {
     TestResult test_result;
     auto it = test_all_.find(test_name);
     if (it != test_all_.end()) {
-//      TestIOManager::OutputTestStart(it->second->GetGroupName(), test_name);
       TestStatus test_status_temp(it->second->Execute());
-      TestIOManager::OutputTestStatus(test_status_temp);
       test_result.AddTestStatus(test_status_temp);
     } else {
       std::cerr << "ExecuteTest: there is no test known as " << test_name
@@ -40,7 +37,6 @@ class TestRegistry {
     if (test_groups_.find(group_name) != test_groups_.end()) {
       TestGroupStatus group_status_temp(
           test_groups_.find(group_name)->second.Execute());
-      TestIOManager::OutputGroupStatus(group_status_temp);
       test_result.AddGroupStatus(group_status_temp);
     } else {
       std::cerr << "ExecuteTestGroup: there is no groups known as "
@@ -52,7 +48,6 @@ class TestRegistry {
     TestResult tests_result;
     for (std::pair<const std::string, TestGroup>& curr_group : test_groups_) {
       TestGroupStatus group_status_temp(curr_group.second.Execute());
-      TestIOManager::OutputGroupStatus(group_status_temp);
       tests_result.AddGroupStatus(group_status_temp);
     }
     return tests_result;

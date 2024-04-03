@@ -6,6 +6,7 @@
 
 #include <KeyWordsDefine.hpp>
 #include <TestStatus.hpp>
+#include <TestIOManager.hpp>
 
 class Test {
  private:
@@ -35,6 +36,7 @@ class Test {
   Test(const Test& other) = delete;
   TestStatus Execute() {
     is_passed_temp_ = true;
+    TestIOManager::OutputTestStart(group_, name_);
     TestStatus answer(name_, group_);
     commands_vec_ = &answer.commands_history;
     const auto start_time = std::chrono::high_resolution_clock::now();
@@ -43,6 +45,7 @@ class Test {
     answer.execution_time = stop_time - start_time;
     answer.result = is_passed_temp_ ? KEYWORD_PASSED : KEYWORD_FAILED;
     commands_vec_ = nullptr;
+    TestIOManager::OutputTestResult(answer);
     return answer;
   }
 };
