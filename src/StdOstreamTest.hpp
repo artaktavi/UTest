@@ -6,27 +6,48 @@
 #include <iomanip>
 
 namespace StdOstreamTest {
+size_t group_title_total_size = 50;
+std::string AlignOnCenterString(const std::string& str, size_t total_sz,
+                                char filler) {
+  std::string res;
+  if (total_sz < str.size()) {
+    res = str;
+    return res;
+  }
+  size_t cur_sz = total_sz - str.size();
+  cur_sz /= 2;
+  res = std::string(cur_sz, filler);
+  res += str;
+  res += std::string(total_sz - res.size(), filler);
+  return res;
+}
 void DisplayTestStartOstream(std::ostream& o_stream, const std::string& group,
                              const std::string& name) {
-  o_stream << "  | "
-           << ConsoleColorsConfig::GetColorCode(
+  o_stream << ConsoleColorsConfig::GetColorCode(
                   ConsoleColorsConfig::common_color)
+           << "  | ";
+  o_stream << ConsoleColorsConfig::GetColorCode(
+                  ConsoleColorsConfig::test_start_color)
            << " [ " << std::setw(6) << std::left << KEYWORD_TEST_START << " ] "
-           << group << '.' << name << ConsoleColorsConfig::GetColorCode("reset")
-           << std::endl;
+           << name << ConsoleColorsConfig::GetColorCode("reset") << std::endl;
 }
 void DisplayGroupStartOstream(std::ostream& o_stream,
                               const std::string& group_name) {
   o_stream << ConsoleColorsConfig::GetColorCode(
                   ConsoleColorsConfig::common_color)
-           << "[ --- " << group_name << " --- ] "
-           << "[ v ======================= ]\n"
+           << '|'
+           << AlignOnCenterString(' ' + group_name + ' ',
+                                  group_title_total_size - 2, '-')
+           << "|\n"
+           << "  v " << std::string(group_title_total_size - 8, '~') << " v\n"
            << ConsoleColorsConfig::GetColorCode("reset");
-  //  o_stream << "[ | ======================= ]\n";
 }
 void DisplayCommandResultOstream(std::ostream& o_stream,
                                  const CommandStatus& command_status) {
-  o_stream << "  |   ";
+  o_stream << ConsoleColorsConfig::GetColorCode(
+                  ConsoleColorsConfig::common_color)
+           << "  | ";
+  //  o_stream << "  |   ";
   if (command_status.result == KEYWORD_PASSED) {
     o_stream << ConsoleColorsConfig::GetColorCode(
         ConsoleColorsConfig::command_passed_color);
@@ -55,7 +76,10 @@ void DisplayTestResultOstream(std::ostream& o_stream,
       DisplayCommandResultOstream(o_stream, command);
     }
   }
-  o_stream << "  | ";
+  o_stream << ConsoleColorsConfig::GetColorCode(
+                  ConsoleColorsConfig::common_color)
+           << "  | ";
+  //  o_stream << "  | ";
   if (test_status.result == KEYWORD_PASSED) {
     o_stream << ConsoleColorsConfig::GetColorCode(
         ConsoleColorsConfig::test_passed_color);
@@ -65,12 +89,30 @@ void DisplayTestResultOstream(std::ostream& o_stream,
   }
   o_stream << " [ " << std::setw(6) << std::right << test_status.result << " ] "
            << ConsoleColorsConfig::GetColorCode("reset");
-  o_stream << " time: " << test_status.execution_time.count() << "s\n";
+  o_stream << "time: " << test_status.execution_time.count() << "s\n";
 }
 void DisplayGroupResultOstream(std::ostream& o_stream,
                                const TestGroupStatus& group_status) {
+  o_stream << ConsoleColorsConfig::GetColorCode(
+      ConsoleColorsConfig::common_color);
+  o_stream << ("  ^ " + std::string(group_title_total_size - 8, '~') + " ^\n");
+  std::string res_text;
+  if (group_status.result == KEYWORD_FAILED) {
+    o_stream << ConsoleColorsConfig::GetColorCode(
+        ConsoleColorsConfig::group_failed_color);
+    res_text = KEYWORD_FAILED;
+  } else {
+    o_stream << ConsoleColorsConfig::GetColorCode(
+        ConsoleColorsConfig::group_passed_color);
+    res_text = KEYWORD_PASSED;
+  }
+  o_stream << ("|" + std::string(group_title_total_size - 2, '-') + "|\n");
+  o_stream << ("|" +
+               AlignOnCenterString(res_text, group_title_total_size - 2, ' ') +
+               "|\n");
+  o_stream << ("|" + std::string(group_title_total_size - 2, '-') + "|\n\n");
   o_stream << ConsoleColorsConfig::GetColorCode("reset");
-  o_stream << "[ ^ ======================= ]\n\n";
+  o_stream << AlignOnCenterString("", group_title_total_size, ' ') << "\n\n";
 }
 }  // namespace StdOstreamTest
 

@@ -25,13 +25,14 @@ namespace ConsoleColorsConfig {
      {"brightcyan", "\033[1m\033[36m"},
      {"brightwhite", "\033[1m\033[37m"}};
   std::string group_passed_color = "green";
-  std::string group_failed_color = "brightred";
+  std::string group_failed_color = "red";
+  std::string test_start_color = "blue";
   std::string test_passed_color = "green";
   std::string test_failed_color = "red";
-  std::string common_color = "cyan";
+  std::string common_color = "blue";
   std::string command_passed_color = "yellow";
   std::string command_failed_color = "red";
-  std::string command_fatal_failed_color = "brightred";
+  std::string command_fatal_failed_color = "red";
   std::string GetColorCode(const std::string& color) noexcept {
     auto it = console_colors.find(color);
     if (it == console_colors.end()) {
