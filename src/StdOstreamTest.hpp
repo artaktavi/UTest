@@ -1,30 +1,30 @@
 #pragma once
 
 #include <OutputConfig.hpp>
-#include <ConsoleSettings.hpp>
+#include <ConsoleColorsConfig.hpp>
 #include <TestResult.hpp>
 #include <iomanip>
 
 namespace StdOstreamTest {
 void DisplayTestStartOstream(std::ostream& o_stream, const std::string& group,
                              const std::string& name) {
-  o_stream << "  |  "
-           << ConsoleSettings::GetColorCode(ConsoleSettings::common_color)
+  o_stream << "  | "
+           << ConsoleColorsConfig::GetColorCode(ConsoleColorsConfig::common_color)
            << " [ " << std::setw(6) << std::left << KEYWORD_TEST_START << " ] "
-           << group << '.' << name << ConsoleSettings::GetColorCode("reset")
+           << group << '.' << name << ConsoleColorsConfig::GetColorCode("reset")
            << std::endl;
 }
 void DisplayGroupStartOstream(std::ostream& o_stream,
                               const std::string& group_name) {
-  o_stream << ConsoleSettings::GetColorCode(ConsoleSettings::common_color)
+  o_stream << ConsoleColorsConfig::GetColorCode(ConsoleColorsConfig::common_color)
            << "[ --- " << group_name << " --- ] "
            << "[ v ======================= ]\n"
-           << ConsoleSettings::GetColorCode("reset");
+           << ConsoleColorsConfig::GetColorCode("reset");
   //  o_stream << "[ | ======================= ]\n";
 }
 void DisplayCommandResultOstream(std::ostream& o_stream,
                                  const CommandStatus& command_status) {
-  o_stream << command_status.line << ": " << command_status.type << '('
+  o_stream << "  |    |  " << command_status.type << '('
            << command_status.arg_1;
   if (!command_status.arg_2.empty()) {
     o_stream << ", " << command_status.arg_2;
@@ -40,21 +40,21 @@ void DisplayTestResultOstream(std::ostream& o_stream,
       DisplayCommandResultOstream(o_stream, command);
     }
   }
-  o_stream << "  |  ";
+  o_stream << "  | ";
   if (test_status.result == KEYWORD_PASSED) {
-    o_stream << ConsoleSettings::GetColorCode(
-        ConsoleSettings::test_succeed_color);
+    o_stream << ConsoleColorsConfig::GetColorCode(
+        ConsoleColorsConfig::test_passed_color);
   } else {
-    o_stream << ConsoleSettings::GetColorCode(
-        ConsoleSettings::test_failed_color);
+    o_stream << ConsoleColorsConfig::GetColorCode(
+        ConsoleColorsConfig::test_failed_color);
   }
   o_stream << " [ " << std::setw(6) << std::right << test_status.result << " ] "
-           << ConsoleSettings::GetColorCode("reset");
+           << ConsoleColorsConfig::GetColorCode("reset");
   o_stream << " time: " << test_status.execution_time.count() << "s\n";
 }
 void DisplayGroupResultOstream(std::ostream& o_stream,
                                const TestGroupStatus& group_status) {
-  o_stream << ConsoleSettings::GetColorCode("reset");
+  o_stream << ConsoleColorsConfig::GetColorCode("reset");
   o_stream << "[ ^ ======================= ]\n\n";
 }
 }  // namespace StdOstreamTest
