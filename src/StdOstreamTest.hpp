@@ -1,7 +1,8 @@
 #pragma once
 
-#include <ConsoleColor.hpp>
+#include <ConsoleSettings.hpp>
 #include <TestResult.hpp>
+#include <iomanip>
 
 std::ostream& operator<<(std::ostream& o_stream,
                          const CommandStatus& command_status) {
@@ -16,23 +17,35 @@ std::ostream& operator<<(std::ostream& o_stream,
 
 std::ostream& operator<<(std::ostream& o_stream,
                          const TestStatus& test_status) {
-  o_stream << test_status.group_name << '.' << test_status.name << " : "
-           << test_status.result << " with "
-           << test_status.execution_time.count() << "s\n";
-  for (const CommandStatus& command : test_status.commands_history) {
-    o_stream << command;
+  o_stream << "  |  ";
+  if (test_status.result == KEYWORD_PASSED) {
+    o_stream << ConsoleSettings::GetColorCode(
+        ConsoleSettings::test_succeed_color);
+  } else {
+    o_stream << ConsoleSettings::GetColorCode(
+        ConsoleSettings::test_failed_color);
+  }
+  o_stream << " [ " << std::setw(6) << std::right << test_status.result
+           << " ] " << ConsoleSettings::GetColorCode("reset");
+  o_stream << " time: " << test_status.execution_time.count() << "s\n";
+  if (ConsoleSettings::is_always_detailed ||
+      (ConsoleSettings::is_failed_detailed &&
+       test_status.result != KEYWORD_PASSED)) {
+    for (const CommandStatus& command : test_status.commands_history) {
+      o_stream << command;
+    }
   }
   return o_stream;
 }
 
 std::ostream& operator<<(std::ostream& o_stream,
                          const TestGroupStatus& group_status) {
-  o_stream << "--- [" << group_status.group_name
-           << "] --- : " << group_status.result << " with "
-           << group_status.group_execution_time.count() << "s\n";
+
+  o_stream << ConsoleSettings::GetColorCode("reset");
   for (const TestStatus& test : group_status.tests_history) {
     o_stream << test;
   }
+  o_stream << "[ ^ ======================= ]\n\n";
   return o_stream;
 }
 

@@ -23,8 +23,10 @@ class TestRegistry {
   }
   static TestResult ExecuteTest(const std::string& test_name) noexcept {
     TestResult test_result;
-    if (test_all_.find(test_name) != test_all_.end()) {
-      TestStatus test_status_temp(test_all_[test_name]->Execute());
+    auto it = test_all_.find(test_name);
+    if (it != test_all_.end()) {
+//      TestIOManager::OutputTestStart(it->second->GetGroupName(), test_name);
+      TestStatus test_status_temp(it->second->Execute());
       TestIOManager::OutputTestStatus(test_status_temp);
       test_result.AddTestStatus(test_status_temp);
     } else {

@@ -57,6 +57,22 @@ class TestIOManager {
       general_test_output_.AddTestStatus(test_status);
     }
   }
+  static void OutputTestStart(const std::string& group, const std::string& name) {
+    if (o_stream_enabled_) {
+      std::cout << "  |  "
+               << ConsoleSettings::GetColorCode(ConsoleSettings::common_color)
+               << " [ " << std::setw(6) << std::left << KEYWORD_TEST_START
+               << " ] " << group << '.' << name
+               << ConsoleSettings::GetColorCode("reset") << std::endl;
+    }
+    if (o_cerr_stream_enabled_) {
+      std::cerr << "  |  "
+               << ConsoleSettings::GetColorCode(ConsoleSettings::common_color)
+               << " [ " << std::setw(6) << std::left << KEYWORD_TEST_START
+               << " ] " << group << '.' << name
+               << ConsoleSettings::GetColorCode("reset") << std::endl;
+    }
+  }
   static void OutputGroupStatus(const TestGroupStatus& group_status) {
     if (o_stream_enabled_) {
       std::cout << group_status;
@@ -66,6 +82,18 @@ class TestIOManager {
     }
     if (o_json_file_enabled_) {
       general_test_output_.AddGroupStatus(group_status);
+    }
+  }
+  static void OutputGroupStart(const std::string& group_name) {
+    if (o_stream_enabled_) {
+      std::cout << ConsoleSettings::GetColorCode(ConsoleSettings::common_color) << "[ --- " << group_name
+               << " --- ] " << "[ v ======================= ]\n";
+      //  o_stream << "[ | ======================= ]\n";
+   }
+    if (o_cerr_stream_enabled_) {
+      std::cout << ConsoleSettings::GetColorCode(ConsoleSettings::common_color) << "[ --- " << group_name
+                << " --- ] " << "[ v ======================= ]\n";
+      //  o_stream << "[ | ======================= ]\n";
     }
   }
 };
