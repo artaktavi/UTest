@@ -24,8 +24,6 @@ namespace ConsoleSettings {
       {"boldmagenta", "\033[1m\033[35m"},
       {"boldcyan", "\033[1m\033[36m"},
       {"boldwhite", "\033[1m\033[37m"}};
-   bool is_failed_detailed = false;
-   bool is_always_detailed = false;
    std::string group_succeed_color = "green";
    std::string group_failed_color = "boldred";
    std::string test_succeed_color = "green";
