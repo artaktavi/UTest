@@ -16,22 +16,22 @@ namespace ConsoleColorsConfig {
      {"magenta", "\033[35m"},
      {"cyan", "\033[36m"},
      {"white", "\033[37m"},
-     {"boldblack", "\033[1m\033[30m"},
-     {"boldred", "\033[1m\033[31m"},
-     {"boldgreen", "\033[1m\033[32m"},
-     {"boldyellow", "\033[1m\033[33m"},
-     {"boldblue", "\033[1m\033[34m"},
-     {"boldmagenta", "\033[1m\033[35m"},
-     {"boldcyan", "\033[1m\033[36m"},
-     {"boldwhite", "\033[1m\033[37m"}};
+     {"brightblack", "\033[1m\033[30m"},
+     {"brightred", "\033[1m\033[31m"},
+     {"brightgreen", "\033[1m\033[32m"},
+     {"brightyellow", "\033[1m\033[33m"},
+     {"brightblue", "\033[1m\033[34m"},
+     {"brightmagenta", "\033[1m\033[35m"},
+     {"brightcyan", "\033[1m\033[36m"},
+     {"brightwhite", "\033[1m\033[37m"}};
   std::string group_passed_color = "green";
-  std::string group_failed_color = "boldred";
+  std::string group_failed_color = "brightred";
   std::string test_passed_color = "green";
   std::string test_failed_color = "red";
-  std::string common_color = "blue";
+  std::string common_color = "cyan";
   std::string command_passed_color = "yellow";
   std::string command_failed_color = "red";
-  std::string command_fatal_failed_color = "boldred";
+  std::string command_fatal_failed_color = "brightred";
   std::string GetColorCode(const std::string& color) noexcept {
     auto it = console_colors.find(color);
     if (it == console_colors.end()) {
