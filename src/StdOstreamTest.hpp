@@ -103,8 +103,8 @@ void DisplayTestResultOstream(std::ostream& o_stream,
     o_stream << ConsoleColorsConfig::GetColorCode(
         ConsoleColorsConfig::test_failed_color);
     if (OutputConfig::is_test_failed_path_enabled) {
-      path_tmp =
-          "in file: " + test_status.path + ':' + std::to_string(test_status.line);
+      path_tmp = "in file: " + test_status.path + ':' +
+                 std::to_string(test_status.line);
     }
   }
   o_stream << " [ " << std::setw(6) << std::right << test_status.result << " ] "
@@ -119,9 +119,10 @@ void DisplayGroupResultOstream(std::ostream& o_stream,
       ConsoleColorsConfig::common_color);
   o_stream << ("  ^ " + std::string(block_width - 8, '~') + " ^\n");
   o_stream << ConsoleColorsConfig::GetColorCode(
-      ConsoleColorsConfig::common_color)
+                  ConsoleColorsConfig::common_color)
            << '|'
-           << AlignOnCenterString(' ' + group_status.group_name + ' ', block_width - 2, '-')
+           << AlignOnCenterString(' ' + group_status.group_name + ' ',
+                                  block_width - 2, '-')
            << "|\n";
   std::string res_text;
   if (group_status.result == KEYWORD_FAILED) {
@@ -159,7 +160,8 @@ void DisplayGroupResultOstream(std::ostream& o_stream,
            << ("execution time: " +
                AlignOnRightString(
                    std::to_string(group_status.group_execution_time.count()),
-                   16, '.') + " sec")
+                   16, '.') +
+               " sec")
            << " |\n";
   o_stream << ("|" + std::string(block_width - 2, '-') + "|\n");
   o_stream << ConsoleColorsConfig::GetColorCode("reset");
