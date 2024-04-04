@@ -47,7 +47,6 @@ void DisplayCommandResultOstream(std::ostream& o_stream,
   o_stream << ConsoleColorsConfig::GetColorCode(
                   ConsoleColorsConfig::common_color)
            << "  | ";
-  //  o_stream << "  |   ";
   if (command_status.result == KEYWORD_PASSED) {
     o_stream << ConsoleColorsConfig::GetColorCode(
         ConsoleColorsConfig::command_passed_color);
@@ -61,11 +60,16 @@ void DisplayCommandResultOstream(std::ostream& o_stream,
   }
   o_stream << " ~ " << std::setw(6) << std::right
            << ("[" + std::to_string(command_status.line) + "]") << " "
-           << command_status.type << '(' << command_status.arg_1;
-  if (!command_status.arg_2.empty()) {
-    o_stream << ", " << command_status.arg_2;
+           << std::setw(group_title_total_size - 14) << std::left
+           << (command_status.type + '(' + command_status.arg_1 +
+               (!command_status.arg_2.empty() ? ", " + command_status.arg_2
+                                              : "") +
+               ") ");
+  if (OutputConfig::is_command_failed_path_enabled &&
+      command_status.result != KEYWORD_PASSED) {
+    o_stream << command_status.path << ":" << command_status.line;
   }
-  o_stream << ")\n" << ConsoleColorsConfig::GetColorCode("reset");
+  o_stream << '\n' << ConsoleColorsConfig::GetColorCode("reset");
 }
 void DisplayTestResultOstream(std::ostream& o_stream,
                               const TestStatus& test_status) {
@@ -79,7 +83,6 @@ void DisplayTestResultOstream(std::ostream& o_stream,
   o_stream << ConsoleColorsConfig::GetColorCode(
                   ConsoleColorsConfig::common_color)
            << "  | ";
-  //  o_stream << "  | ";
   if (test_status.result == KEYWORD_PASSED) {
     o_stream << ConsoleColorsConfig::GetColorCode(
         ConsoleColorsConfig::test_passed_color);
@@ -126,9 +129,6 @@ std::ostream& operator<<(std::ostream& o_stream,
                          const TestStatus& test_status) {
   StdOstreamTest::DisplayTestStartOstream(o_stream, test_status.group_name,
                                           test_status.name);
-  //  for (const CommandStatus& command : test_status.commands_history) {
-  //    o_stream << command;
-  //  }
   StdOstreamTest::DisplayTestResultOstream(o_stream, test_status);
   return o_stream;
 }
