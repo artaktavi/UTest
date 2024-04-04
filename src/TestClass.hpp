@@ -5,19 +5,20 @@
 #include <set>
 
 #include <KeyWordsDefine.hpp>
-#include <TestStatus.hpp>
 #include <TestIOManager.hpp>
+#include <TestStatus.hpp>
 
 class Test {
  private:
   std::string name_;
   std::string group_;
+  uint32_t line_;
+  std::string path_;
   std::vector<CommandStatus>* commands_vec_ = nullptr;
   bool is_passed_temp_ = true;
   virtual void TestBody() = 0;
 
  protected:
-  uint32_t line_temp_ = 0; // necessary for memorization of __LINE__ in commands
   static const std::set<std::string> FAILED_STRINGS;
   void UpdateStatus(const CommandStatus& command_result) {
     if (FAILED_STRINGS.find(command_result.result) != FAILED_STRINGS.end()) {
@@ -29,15 +30,18 @@ class Test {
       commands_vec_->push_back(command_result);
     }
   }
-  Test(std::string name, std::string group)
-      : name_(std::move(name)), group_(std::move(group)) {}
+  Test(std::string name, std::string group, uint32_t line, std::string path)
+      : name_(std::move(name)),
+        group_(std::move(group)),
+        line_(line),
+        path_(std::move(path)) {}
 
  public:
   Test(const Test& other) = delete;
   TestStatus Execute() {
     is_passed_temp_ = true;
     TestIOManager::OutputTestStart(group_, name_);
-    TestStatus answer(name_, group_);
+    TestStatus answer(name_, group_, line_, path_);
     commands_vec_ = &answer.commands_history;
     const auto start_time = std::chrono::high_resolution_clock::now();
     TestBody();

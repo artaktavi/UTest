@@ -58,18 +58,20 @@ void DisplayCommandResultOstream(std::ostream& o_stream,
     o_stream << ConsoleColorsConfig::GetColorCode(
         ConsoleColorsConfig::command_fatal_failed_color);
   }
-  o_stream << " ~ " << std::setw(6) << std::right
+  o_stream << "   ~ " << std::setw(6) << std::right
            << ("[" + std::to_string(command_status.line) + "]") << " "
-           << std::setw(group_title_total_size - 14) << std::left
+           << std::setw(group_title_total_size - 16) << std::left
            << (command_status.type + '(' + command_status.arg_1 +
                (!command_status.arg_2.empty() ? ", " + command_status.arg_2
                                               : "") +
                ") ");
+  o_stream << ConsoleColorsConfig::GetColorCode("reset");
   if (OutputConfig::is_command_failed_path_enabled &&
       command_status.result != KEYWORD_PASSED) {
-    o_stream << command_status.path << ":" << command_status.line;
+    o_stream << "in file: " << command_status.path << ":"
+             << command_status.line;
   }
-  o_stream << '\n' << ConsoleColorsConfig::GetColorCode("reset");
+  o_stream << '\n';
 }
 void DisplayTestResultOstream(std::ostream& o_stream,
                               const TestStatus& test_status) {
@@ -83,16 +85,22 @@ void DisplayTestResultOstream(std::ostream& o_stream,
   o_stream << ConsoleColorsConfig::GetColorCode(
                   ConsoleColorsConfig::common_color)
            << "  | ";
+  std::string path_tmp;
   if (test_status.result == KEYWORD_PASSED) {
     o_stream << ConsoleColorsConfig::GetColorCode(
         ConsoleColorsConfig::test_passed_color);
   } else {
     o_stream << ConsoleColorsConfig::GetColorCode(
         ConsoleColorsConfig::test_failed_color);
+    path_tmp =
+        "in file: " + test_status.path + ':' + std::to_string(test_status.line);
   }
   o_stream << " [ " << std::setw(6) << std::right << test_status.result << " ] "
            << ConsoleColorsConfig::GetColorCode("reset");
-  o_stream << "time: " << test_status.execution_time.count() << "s\n";
+  o_stream << std::setw(group_title_total_size - 16) << std::left
+           << ("time: " + std::to_string(test_status.execution_time.count()) +
+               "s ")
+           << path_tmp << '\n';
 }
 void DisplayGroupResultOstream(std::ostream& o_stream,
                                const TestGroupStatus& group_status) {

@@ -15,6 +15,8 @@ class TestResult {
   static const std::string ARG_2_STR_;
   static const std::string TYPE_STR_;
   static const std::string COMMANDS_STR_;
+  static const std::string LINE_STR_;
+  static const std::string PATH_STR_;
   nlohmann::json json_storage_;
   std::string path_to_auto_save_ = "unit_tester_report.json";
   bool auto_save_enabled_ = false;
@@ -39,18 +41,12 @@ class TestResult {
   */
 
  public:
-  void ToggleAutoSave() {
-    auto_save_enabled_ = !auto_save_enabled_;
-  }
-  bool IsAutoSaveEnabled() const {
-    return auto_save_enabled_;
-  }
-  void SetPathToAutoSave(const std::string& path) {
-    path_to_auto_save_ = path;
-  }
+  void ToggleAutoSave() { auto_save_enabled_ = !auto_save_enabled_; }
+  bool IsAutoSaveEnabled() const { return auto_save_enabled_; }
+  void SetPathToAutoSave(const std::string& path) { path_to_auto_save_ = path; }
   void AddTestStatus(const TestStatus& test) {
     if (json_storage_.find(test.group_name) == json_storage_.end()) {
-      json_storage_[test.group_name][RES_STR_] = "undefined";
+      json_storage_[test.group_name][RES_STR_] = KEYWORD_UNDEFINED_RESULT;
       json_storage_[test.group_name][EXEC_STR_] = 0.0;
     }
     json_storage_[test.group_name][TESTS_STR_][test.name][RES_STR_] =
@@ -59,15 +55,22 @@ class TestResult {
         test.execution_time.count();
     json_storage_[test.group_name][TESTS_STR_][test.name][GROUP_STR_] =
         test.group_name;
+    json_storage_[test.group_name][TESTS_STR_][test.name][PATH_STR_] =
+        test.path;
+    json_storage_[test.group_name][TESTS_STR_][test.name][LINE_STR_] =
+        test.line;
     for (const CommandStatus& command : test.commands_history) {
+      std::string command_line_tmp = std::to_string(command.line);
       json_storage_[test.group_name][TESTS_STR_][test.name][COMMANDS_STR_]
-                   [std::to_string(command.line)][TYPE_STR_] = command.type;
+                   [command_line_tmp][TYPE_STR_] = command.type;
       json_storage_[test.group_name][TESTS_STR_][test.name][COMMANDS_STR_]
-                   [std::to_string(command.line)][RES_STR_] = command.result;
+                   [command_line_tmp][RES_STR_] = command.result;
       json_storage_[test.group_name][TESTS_STR_][test.name][COMMANDS_STR_]
-                   [std::to_string(command.line)][ARG_1_STR_] = command.arg_1;
+                   [command_line_tmp][ARG_1_STR_] = command.arg_1;
       json_storage_[test.group_name][TESTS_STR_][test.name][COMMANDS_STR_]
-                   [std::to_string(command.line)][ARG_2_STR_] = command.arg_2;
+                   [command_line_tmp][ARG_2_STR_] = command.arg_2;
+      json_storage_[test.group_name][TESTS_STR_][test.name][COMMANDS_STR_]
+                   [command_line_tmp][PATH_STR_] = command.path;
     }
   }
   void AddGroupStatus(const TestGroupStatus& group) {
@@ -108,15 +111,16 @@ class TestResult {
           std::chrono::duration<double>(group.value()[EXEC_STR_]);
       answer.at(group_name).result = group.value()[RES_STR_];
       for (auto& test : group.value()[TESTS_STR_].items()) {
-        TestStatus test_temp(test.key(), group_name);
+        TestStatus test_temp(test.key(), group_name, test.value()[LINE_STR_],
+                             test.value()[PATH_STR_]);
         test_temp.result = test.value()[RES_STR_];
         test_temp.execution_time =
             std::chrono::duration<double>(test.value()[EXEC_STR_]);
         for (auto& command : test.value()[COMMANDS_STR_].items()) {
           test_temp.commands_history.emplace_back(
               command.value()[TYPE_STR_], stoi(command.key()),
-              command.value()[ARG_1_STR_], command.value()[ARG_2_STR_],
-              command.value()[RES_STR_]);
+              command.value()[PATH_STR_], command.value()[ARG_1_STR_],
+              command.value()[ARG_2_STR_], command.value()[RES_STR_]);
         }
         answer.at(group_name).tests_history.push_back(test_temp);
         // answer.at(group_name).tests_history.push_back(std::move(ConstructTestGroupStatus(test)));
@@ -124,17 +128,17 @@ class TestResult {
     }
     return answer;
   }
-//  TestGroupStatus GetTestGroupStatus(const std::string& group_name) const {
-//    auto it = json_storage_.find(group_name);
-//    if (it != json_storage_.end()) {
-//      it.value();
-//    } else {
-//      std::cerr << "Error: UTest: TestResult: GetTestGroupStatus: there is no "
-//                   "group with given name"
-//                << std::endl;
-//    }
-//  }
-//  TestStatus GetTestStatus(const std::string& test_name) const {}
+  //  TestGroupStatus GetTestGroupStatus(const std::string& group_name) const {
+  //    auto it = json_storage_.find(group_name);
+  //    if (it != json_storage_.end()) {
+  //      it.value();
+  //    } else {
+  //      std::cerr << "Error: UTest: TestResult: GetTestGroupStatus: there is no "
+  //                   "group with given name"
+  //                << std::endl;
+  //    }
+  //  }
+  //  TestStatus GetTestStatus(const std::string& test_name) const {}
   TestResult& operator=(const TestResult& other) {
     json_storage_ = other.json_storage_;
     return *this;
@@ -161,3 +165,5 @@ const std::string TestResult::ARG_2_STR_ = "arg_2";
 const std::string TestResult::TYPE_STR_ = "type";
 const std::string TestResult::COMMANDS_STR_ = "commands";
 const std::string TestResult::GROUP_STR_ = "group_name";
+const std::string TestResult::LINE_STR_ = "line";
+const std::string TestResult::PATH_STR_ = "path";
