@@ -6,7 +6,18 @@
 #include <iomanip>
 
 namespace StdOstreamTest {
-size_t group_title_total_size = 50;
+size_t block_width = 50;
+std::string AlignOnRightString(const std::string& str, size_t total_sz,
+                               char filler) {
+  std::string res;
+  if (total_sz < str.size()) {
+    res = str;
+    return res;
+  }
+  res += std::string(total_sz - str.size(), filler);
+  res += str;
+  return res;
+}
 std::string AlignOnCenterString(const std::string& str, size_t total_sz,
                                 char filler) {
   std::string res;
@@ -36,10 +47,9 @@ void DisplayGroupStartOstream(std::ostream& o_stream,
   o_stream << ConsoleColorsConfig::GetColorCode(
                   ConsoleColorsConfig::common_color)
            << '|'
-           << AlignOnCenterString(' ' + group_name + ' ',
-                                  group_title_total_size - 2, '-')
+           << AlignOnCenterString(' ' + group_name + ' ', block_width - 2, '-')
            << "|\n"
-           << "  v " << std::string(group_title_total_size - 8, '~') << " v\n"
+           << "  v " << std::string(block_width - 8, '~') << " v\n"
            << ConsoleColorsConfig::GetColorCode("reset");
 }
 void DisplayCommandResultOstream(std::ostream& o_stream,
@@ -60,7 +70,7 @@ void DisplayCommandResultOstream(std::ostream& o_stream,
   }
   o_stream << "   ~ " << std::setw(6) << std::right
            << ("[" + std::to_string(command_status.line) + "]") << " "
-           << std::setw(group_title_total_size - 16) << std::left
+           << std::setw(block_width - 16) << std::left
            << (command_status.type + '(' + command_status.arg_1 +
                (!command_status.arg_2.empty() ? ", " + command_status.arg_2
                                               : "") +
@@ -97,16 +107,20 @@ void DisplayTestResultOstream(std::ostream& o_stream,
   }
   o_stream << " [ " << std::setw(6) << std::right << test_status.result << " ] "
            << ConsoleColorsConfig::GetColorCode("reset");
-  o_stream << std::setw(group_title_total_size - 16) << std::left
-           << ("time: " + std::to_string(test_status.execution_time.count()) +
-               "s ")
+  o_stream << std::setw(block_width - 16) << std::left
+           << (std::to_string(test_status.execution_time.count()) + "s ")
            << path_tmp << '\n';
 }
 void DisplayGroupResultOstream(std::ostream& o_stream,
                                const TestGroupStatus& group_status) {
   o_stream << ConsoleColorsConfig::GetColorCode(
       ConsoleColorsConfig::common_color);
-  o_stream << ("  ^ " + std::string(group_title_total_size - 8, '~') + " ^\n");
+  o_stream << ("  ^ " + std::string(block_width - 8, '~') + " ^\n");
+  o_stream << ConsoleColorsConfig::GetColorCode(
+      ConsoleColorsConfig::common_color)
+           << '|'
+           << AlignOnCenterString(' ' + group_status.group_name + ' ', block_width - 2, '-')
+           << "|\n";
   std::string res_text;
   if (group_status.result == KEYWORD_FAILED) {
     o_stream << ConsoleColorsConfig::GetColorCode(
@@ -117,13 +131,37 @@ void DisplayGroupResultOstream(std::ostream& o_stream,
         ConsoleColorsConfig::group_passed_color);
     res_text = KEYWORD_PASSED;
   }
-  o_stream << ("|" + std::string(group_title_total_size - 2, '-') + "|\n");
-  o_stream << ("|" +
-               AlignOnCenterString(res_text, group_title_total_size - 2, ' ') +
-               "|\n");
-  o_stream << ("|" + std::string(group_title_total_size - 2, '-') + "|\n\n");
+  size_t tests_passed = 0;
+  size_t tests_failed = 0;
+  for (const TestStatus& test : group_status.tests_history) {
+    if (test.result == KEYWORD_PASSED) {
+      ++tests_passed;
+    } else {
+      ++tests_failed;
+    }
+  }
+  o_stream << ("|" + std::string(block_width - 2, '-') + "|\n");
+  o_stream << '|'
+           << AlignOnCenterString(' ' + res_text + ' ', block_width - 2, ' ')
+           << "|\n";
+  o_stream << ("|" + std::string(block_width - 2, '-') + "|\n");
+  o_stream << "| " << std::setw(block_width - 4) << std::left
+           << ("tests passed:   " +
+               AlignOnRightString(std::to_string(tests_passed), 16, '.'))
+           << " |\n";
+  o_stream << "| " << std::setw(block_width - 4) << std::left
+           << ("tests failed:   " +
+               AlignOnRightString(std::to_string(tests_failed), 16, '.'))
+           << " |\n";
+  o_stream << "| " << std::setw(block_width - 4) << std::left
+           << ("execution time: " +
+               AlignOnRightString(
+                   std::to_string(group_status.group_execution_time.count()),
+                   16, '.') + " sec")
+           << " |\n";
+  o_stream << ("|" + std::string(block_width - 2, '-') + "|\n");
   o_stream << ConsoleColorsConfig::GetColorCode("reset");
-  o_stream << AlignOnCenterString("", group_title_total_size, ' ') << "\n\n";
+  o_stream << "\n\n";
 }
 }  // namespace StdOstreamTest
 
