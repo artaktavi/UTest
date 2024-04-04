@@ -102,8 +102,10 @@ void DisplayTestResultOstream(std::ostream& o_stream,
   } else {
     o_stream << ConsoleColorsConfig::GetColorCode(
         ConsoleColorsConfig::test_failed_color);
-    path_tmp =
-        "in file: " + test_status.path + ':' + std::to_string(test_status.line);
+    if (OutputConfig::is_test_failed_path_enabled) {
+      path_tmp =
+          "in file: " + test_status.path + ':' + std::to_string(test_status.line);
+    }
   }
   o_stream << " [ " << std::setw(6) << std::right << test_status.result << " ] "
            << ConsoleColorsConfig::GetColorCode("reset");
