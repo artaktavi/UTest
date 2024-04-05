@@ -9,4 +9,4 @@ generate_single_include:
                 - single-include/UTest/UTest.hpp
             when: on_success
     script:
-        - cmake -S . -B build && build/make
+        - cmake -S . -B build && cd build && make
