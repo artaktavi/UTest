@@ -10,3 +10,12 @@ generate_single_include:
             when: on_success
     script:
         - cmake -S . -B build && cd build && make
+        - git config user.email "khafizov.ar@phystech.edu"
+        - git config user.name "ci-bot"
+        - pwd
+        - ls -a
+        - git remote add gitlab_origin https://oauth2:glpat-hjgWg37saysQC3drx3pu@gitlab.akhcheck.ru:artiom.khafizov/unittester.git
+        - git add single-include/
+        - git commit -m "generated single-include by ci-bot"
+        - git push gitlab_origin HEAD:main -o ci.skip # prevent triggering pipeline again
+    
