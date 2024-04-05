@@ -16,5 +16,5 @@ generate_single_include:
         - ls -a
         - git add single-include/
         - git commit -m "generated single-include by ci-bot"
-        - git push gitlab_origin HEAD:main -o ci.skip # prevent triggering pipeline again
+        - git push gitlab_origin HEAD:$CI_COMMIT_REF_NAME -o ci.skip # prevent triggering pipeline again
     
