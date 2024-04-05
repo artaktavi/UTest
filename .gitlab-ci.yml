@@ -1,7 +1,7 @@
 generate_single_include:
     image: python:3.9-slim-bullseye
     before_script:
-        - sudo apt-get update && sudo apt-get install cmake
+        - apt-get update && apt-get install cmake
     tags:
         - common
     script:
