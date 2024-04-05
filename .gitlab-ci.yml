@@ -1,5 +1,15 @@
+stages:
+    - build
+    - test
+
+variables:
+    ACCESS_TOKEN: "glpat-rkDdxxm2x8mwPnymihxx"
+    GITLAB_ADDRESS: "https://artiom.khafizov:$ACCESS_TOKEN@gitlab.akhcheck.ru/artiom.khafizov/unittester.git"
+    WORK_IMAGE: registry.gitlab.akhcheck.ru/artiom.khafizov/unittester
+
 generate_single_include:
-    image: registry.gitlab.akhcheck.ru/artiom.khafizov/unittester
+    stage: build
+    image: $WORK_IMAGE
     tags:
         - common
     artifacts:
@@ -7,14 +17,21 @@ generate_single_include:
                 - single-include/UTest/UTest.hpp
             when: on_success
     script:
-        - cmake -S . -B build && cd build && make
-        - git config user.email "khafizov.ar@phystech.edu"
+        - cmake -S . -B build
+        - cmake --build build --target generate_single_include
+        - git config user.email "ci-bot"
         - git config user.name "ci-bot"
-        - if [ $(git remote -v | grep gitlab_origin | wc -l) -eq 0 ]; then git remote add gitlab_origin https://artiom.khafizov:glpat-rkDdxxm2x8mwPnymihxx@gitlab.akhcheck.ru/artiom.khafizov/unittester.git; else git remote set-url gitlab_origin https://artiom.khafizov:glpat-rkDdxxm2x8mwPnymihxx@gitlab.akhcheck.ru/artiom.khafizov/unittester.git; fi
-        - cd ..
-        - pwd
-        - ls -a
+        - if [ $(git remote -v | grep gitlab_origin | wc -l) -eq 0 ]; then git remote add gitlab_origin "$GITLAB_ADDRESS"; else git remote set-url gitlab_origin "$GITLAB_ADDRESS"; fi
         - git add single-include/
         - git commit -m "generated single-include by ci-bot"
         - git push gitlab_origin HEAD:$CI_COMMIT_REF_NAME -o ci.skip # prevent triggering pipeline again
-    
+
+test:
+    stage: test
+    image: $WORK_IMAGE
+    tags:
+        - common
+    script:
+        - cmake -S . -B build -DBUILD_TESTS=ON
+        - cmake --build build
+        - build/tests/tests

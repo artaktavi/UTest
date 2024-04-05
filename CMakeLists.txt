@@ -26,7 +26,7 @@ set(SINGLE_INCLUDE_TEMPLATE_PATH "${INCLUDE_TEMPLATES_DIR}/SingleInclude.hpp")
 set(SINGLE_INCLUDE_OUTFILE_PATH "${SINGLE_INCLUDE}/UTest.hpp")
 set(SINGLE_INCLUDE_SOURCES ${SOURCE_DIR} ${THIRD_PARTY_DIR})
 
-add_custom_target(generate_single_include ALL)
+add_custom_target(generate_single_include)
 add_custom_command(TARGET generate_single_include POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory ${SINGLE_INCLUDE}
         COMMAND Python::Interpreter ${FILE_INCLUDER_SCRIPT} ${SINGLE_INCLUDE_TEMPLATE_PATH} ${SINGLE_INCLUDE_OUTFILE_PATH} ${SINGLE_INCLUDE_SOURCES}
