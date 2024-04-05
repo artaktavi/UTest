@@ -1,7 +1,5 @@
 generate_single_include:
-    image: python:3.9-slim-bullseye
-    before_script:
-        - apt-get --yes update && apt-get --yes install cmake && apt-get --yes install build-essential
+    image: registry.gitlab.akhcheck.ru/artiom.khafizov/unittester
     tags:
         - common
     artifacts:
