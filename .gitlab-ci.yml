@@ -10,8 +10,7 @@ generate_single_include:
         - cmake -S . -B build && cd build && make
         - git config user.email "khafizov.ar@phystech.edu"
         - git config user.name "ci-bot"
-        - git remote set-url gitlab_origin https://khafizov.ar@phystech.edu:oauth2:glpat-hjgWg37saysQC3drx3pu@gitlab.akhcheck.ru/artiom.khafizov/unittester.git
-        # - if [ $(git remote -v | grep gitlab_origin | wc -l) -eq 0 ]; then git remote add gitlab_origin https://khafizov.ar@phystech.edu:oauth2:glpat-hjgWg37saysQC3drx3pu@gitlab.akhcheck.ru/artiom.khafizov/unittester.git; fi
+         - if [ $(git remote -v | grep gitlab_origin | wc -l) -eq 0 ]; then git remote add gitlab_origin https://khafizov.ar@phystech.edu:oauth2:glpat-hjgWg37saysQC3drx3pu@gitlab.akhcheck.ru/artiom.khafizov/unittester.git; fi
         - cd ..
         - pwd
         - ls -a
