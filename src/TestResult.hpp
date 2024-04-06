@@ -6,6 +6,7 @@
 
 #include <TestGroupStatus.hpp>
 
+namespace UTest {
 class TestResult {
   static const std::string TESTS_STR_;
   static const std::string RES_STR_;
@@ -46,7 +47,7 @@ class TestResult {
   void SetPathToAutoSave(const std::string& path) { path_to_auto_save_ = path; }
   void AddTestStatus(const TestStatus& test) {
     if (json_storage_.find(test.group_name) == json_storage_.end()) {
-      json_storage_[test.group_name][RES_STR_] = KEYWORD_UNDEFINED_RESULT;
+      json_storage_[test.group_name][RES_STR_] = UTEST_KEYWORD_UNDEFINED_RESULT;
       json_storage_[test.group_name][EXEC_STR_] = 0.0;
     }
     json_storage_[test.group_name][TESTS_STR_][test.name][RES_STR_] =
@@ -167,3 +168,4 @@ const std::string TestResult::COMMANDS_STR_ = "commands";
 const std::string TestResult::GROUP_STR_ = "group_name";
 const std::string TestResult::LINE_STR_ = "line";
 const std::string TestResult::PATH_STR_ = "path";
+}  // namespace UTest

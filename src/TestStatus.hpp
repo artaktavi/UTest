@@ -5,6 +5,7 @@
 
 #include <CommandStatus.hpp>
 
+namespace UTest {
 struct TestStatus {
   std::string name;
   std::string group_name;
@@ -24,3 +25,4 @@ struct TestStatus {
   TestStatus(const TestStatus& other) = default;
   TestStatus(TestStatus&& other) noexcept = default;
 };
+}  // namespace UTest

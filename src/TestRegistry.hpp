@@ -4,6 +4,7 @@
 
 #include <TestGroup.hpp>
 
+namespace UTestInfrastructure {
 class TestRegistry {
   static std::unordered_map<std::string, TestGroup> test_groups_;
   static std::unordered_map<std::string, Test*> test_all_;
@@ -20,11 +21,11 @@ class TestRegistry {
     test_groups_.find(group_name)->second.AddTest(test);
     test_all_[name] = test;
   }
-  static TestResult ExecuteTest(const std::string& test_name) noexcept {
-    TestResult test_result;
+  static UTest::TestResult ExecuteTest(const std::string& test_name) noexcept {
+    UTest::TestResult test_result;
     auto it = test_all_.find(test_name);
     if (it != test_all_.end()) {
-      TestStatus test_status_temp(it->second->Execute());
+      UTest::TestStatus test_status_temp(it->second->Execute());
       test_result.AddTestStatus(test_status_temp);
     } else {
       std::cerr << "ExecuteTest: there is no test known as " << test_name
@@ -32,10 +33,11 @@ class TestRegistry {
     }
     return test_result;
   }
-  static TestResult ExecuteTestGroup(const std::string& group_name) noexcept {
-    TestResult test_result;
+  static UTest::TestResult ExecuteTestGroup(
+      const std::string& group_name) noexcept {
+    UTest::TestResult test_result;
     if (test_groups_.find(group_name) != test_groups_.end()) {
-      TestGroupStatus group_status_temp(
+      UTest::TestGroupStatus group_status_temp(
           test_groups_.find(group_name)->second.Execute());
       test_result.AddGroupStatus(group_status_temp);
     } else {
@@ -44,10 +46,10 @@ class TestRegistry {
     }
     return test_result;
   }
-  static TestResult ExecuteTestAll() noexcept {
-    TestResult tests_result;
+  static UTest::TestResult ExecuteTestAll() noexcept {
+    UTest::TestResult tests_result;
     for (std::pair<const std::string, TestGroup>& curr_group : test_groups_) {
-      TestGroupStatus group_status_temp(curr_group.second.Execute());
+      UTest::TestGroupStatus group_status_temp(curr_group.second.Execute());
       tests_result.AddGroupStatus(group_status_temp);
     }
     return tests_result;
@@ -56,3 +58,4 @@ class TestRegistry {
 
 std::unordered_map<std::string, TestGroup> TestRegistry::test_groups_;
 std::unordered_map<std::string, Test*> TestRegistry::test_all_;
+}  // namespace UTestInfrastructure

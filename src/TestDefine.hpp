@@ -3,6 +3,7 @@
 #include <TestRegistry.hpp>
 
 #define TEST(test_name, test_group)                                   \
+  namespace UTestInfrastructure {                                     \
   class test_name : public Test {                                     \
    public:                                                            \
     test_name() : Test(#test_name, #test_group, __LINE__, __FILE__) { \
@@ -12,4 +13,5 @@
     void TestBody() override;                                         \
   };                                                                  \
   test_name Test##test_name;                                          \
-  void test_name::TestBody()
+  }                                                                   \
+  void UTestInfrastructure::test_name::TestBody()
