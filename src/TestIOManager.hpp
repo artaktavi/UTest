@@ -7,18 +7,6 @@ class TestIOManager {
   static UTest::TestResult general_test_output_;
 
  public:
-  static void ToggleOStream() noexcept {
-    UTest::OutputConfig::o_cout_stream_enabled =
-        !UTest::OutputConfig::o_cout_stream_enabled;
-  }
-  static void ToggleOCerrStream() noexcept {
-    UTest::OutputConfig::o_cerr_stream_enabled =
-        !UTest::OutputConfig::o_cerr_stream_enabled;
-  }
-  static void SwitchStreams() noexcept {
-    ToggleOStream();
-    ToggleOCerrStream();
-  }
   static void ToggleOJsonFile(const std::string& new_path = "") noexcept {
     UTest::OutputConfig::o_json_file_enabled =
         !UTest::OutputConfig::o_json_file_enabled;
@@ -28,15 +16,6 @@ class TestIOManager {
     if (!general_test_output_.IsAutoSaveEnabled()) {
       general_test_output_.ToggleAutoSave();
     }
-  }
-  static bool IsOStreamEnabled() noexcept {
-    return UTest::OutputConfig::o_cout_stream_enabled;
-  }
-  static bool IsOCerrStreamEnabled() noexcept {
-    return UTest::OutputConfig::o_cerr_stream_enabled;
-  }
-  static bool IsOJsonFileEnabled() noexcept {
-    return UTest::OutputConfig::o_json_file_enabled;
   }
   static void SetOutputJsonFilePath(const std::string& new_path) noexcept {
     general_test_output_.SetPathToAutoSave(new_path);

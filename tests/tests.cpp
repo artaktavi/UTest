@@ -3,7 +3,7 @@
 int main() {
   const auto start = std::chrono::high_resolution_clock::now();
   std::cout << "-------------- Tests starting ---------------\n\n";
-  UTestInfrastructure::TestIOManager::ToggleOStream();
+  UTest::ToggleOStream();
   AssertTests();
   const auto stop = std::chrono::high_resolution_clock::now();
   std::cout << "\n------------- All tests passed. -------------\n";

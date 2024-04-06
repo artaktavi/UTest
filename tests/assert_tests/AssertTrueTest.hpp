@@ -1,9 +1,7 @@
 #pragma once
 
 #include <cassert>
-#include <iostream>
-#include <TestDefine.hpp>
-#include <AssertTrueDefine.hpp>
+#include <UTest.hpp>
 
 TEST(AssertTrueTest, AssertTests) {
   ASSERT_TRUE((2 * 2) == 4)

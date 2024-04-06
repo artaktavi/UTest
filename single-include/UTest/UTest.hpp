@@ -16,7 +16,9 @@
 //--------------------------------------------------------------------|
 
 
-// Tests infrastructure:
+
+// tests infrastructure
+
 
 
 #include <unordered_map>
@@ -28,13 +30,13 @@
 #include <set>
 
 
-#define KEYWORD_UNDEFINED_RESULT "UNDEFINED"
-#define KEYWORD_TEST_START "RUN"
-#define KEYWORD_PASSED "OK"
-#define KEYWORD_FAILED "FAILED"
-#define KEYWORD_EXCEPTION_FAILED "FAILED EXCEPTION"
-#define KEYWORD_FATAL_FAILED "FATAL FAILED"
-#define KEYWORD_EXCEPTION_FATAL_FAILED "FATAL FAILED EXCEPTION"
+#define UTEST_KEYWORD_UNDEFINED_RESULT "UNDEFINED"
+#define UTEST_KEYWORD_TEST_START "RUN"
+#define UTEST_KEYWORD_PASSED "OK"
+#define UTEST_KEYWORD_FAILED "FAILED"
+#define UTEST_KEYWORD_EXCEPTION_FAILED "FAILED EXCEPTION"
+#define UTEST_KEYWORD_FATAL_FAILED "FATAL FAILED"
+#define UTEST_KEYWORD_EXCEPTION_FATAL_FAILED "FATAL FAILED EXCEPTION"
 
 
 
@@ -43,45 +45,47 @@
 #include <string>
 #include <unordered_map>
 
+namespace UTest {
 namespace ConsoleColorsConfig {
 
-  const std::unordered_map<std::string, std::string> console_colors = {
-     {"reset", "\033[0m"},
-     {"black", "\033[30m"},
-     {"red", "\033[31m"},
-     {"green", "\033[32m"},
-     {"yellow", "\033[33m"},
-     {"blue", "\033[34m"},
-     {"magenta", "\033[35m"},
-     {"cyan", "\033[36m"},
-     {"white", "\033[37m"},
-     {"brightblack", "\033[1m\033[30m"},
-     {"brightred", "\033[1m\033[31m"},
-     {"brightgreen", "\033[1m\033[32m"},
-     {"brightyellow", "\033[1m\033[33m"},
-     {"brightblue", "\033[1m\033[34m"},
-     {"brightmagenta", "\033[1m\033[35m"},
-     {"brightcyan", "\033[1m\033[36m"},
-     {"brightwhite", "\033[1m\033[37m"}};
-  std::string group_passed_color = "green";
-  std::string group_failed_color = "red";
-  std::string test_start_color = "blue";
-  std::string test_passed_color = "green";
-  std::string test_failed_color = "red";
-  std::string common_color = "blue";
-  std::string command_passed_color = "yellow";
-  std::string command_failed_color = "red";
-  std::string command_fatal_failed_color = "red";
-  std::string GetColorCode(const std::string& color) noexcept {
-    auto it = console_colors.find(color);
-    if (it == console_colors.end()) {
-      return {};
-    }
-    return it->second;
+const std::unordered_map<std::string, std::string> console_colors = {
+    {"reset", "\033[0m"},
+    {"black", "\033[30m"},
+    {"red", "\033[31m"},
+    {"green", "\033[32m"},
+    {"yellow", "\033[33m"},
+    {"blue", "\033[34m"},
+    {"magenta", "\033[35m"},
+    {"cyan", "\033[36m"},
+    {"white", "\033[37m"},
+    {"brightblack", "\033[1m\033[30m"},
+    {"brightred", "\033[1m\033[31m"},
+    {"brightgreen", "\033[1m\033[32m"},
+    {"brightyellow", "\033[1m\033[33m"},
+    {"brightblue", "\033[1m\033[34m"},
+    {"brightmagenta", "\033[1m\033[35m"},
+    {"brightcyan", "\033[1m\033[36m"},
+    {"brightwhite", "\033[1m\033[37m"}};
+std::string group_passed_color = "green";
+std::string group_failed_color = "red";
+std::string test_start_color = "blue";
+std::string test_passed_color = "green";
+std::string test_failed_color = "red";
+std::string common_color = "blue";
+std::string command_passed_color = "yellow";
+std::string command_failed_color = "red";
+std::string command_fatal_failed_color = "red";
+std::string GetColorCode(const std::string& color) noexcept {
+  auto it = console_colors.find(color);
+  if (it == console_colors.end()) {
+    return {};
   }
-}  // namespace ConsoleSettings
+  return it->second;
+}
+}  // namespace ConsoleColorsConfig
+}  // namespace UTest
 
-
+namespace UTest {
 namespace OutputConfig {
 bool o_cout_stream_enabled = true;
 bool o_cerr_stream_enabled = false;
@@ -90,7 +94,8 @@ bool is_failed_detailed = true;
 bool is_always_detailed = false;
 bool is_command_failed_path_enabled = false;
 bool is_test_failed_path_enabled = true;
-}
+}  // namespace OutputConfig
+}  // namespace UTest
 
 #include <fstream>
 
@@ -24872,6 +24877,7 @@ inline void swap(nlohmann::NLOHMANN_BASIC_JSON_TPL& j1, nlohmann::NLOHMANN_BASIC
 
 #include <string>
 
+namespace UTest {
 struct CommandStatus {
   std::string type;
   uint32_t line;
@@ -24879,22 +24885,25 @@ struct CommandStatus {
   std::string arg_2;
   std::string result;
   std::string path;
-  CommandStatus(std::string c_type, uint32_t c_line, std::string path, std::string c_arg_1,
-                std::string c_arg_2, std::string c_result)
+  CommandStatus(std::string c_type, uint32_t c_line, std::string path,
+                std::string c_arg_1, std::string c_arg_2, std::string c_result)
       : type(std::move(c_type)),
         line(c_line),
         arg_1(std::move(c_arg_1)),
         arg_2(std::move(c_arg_2)),
-        result(std::move(c_result)), path(std::move(path)) {}
-  CommandStatus(std::string c_type, uint32_t c_line, std::string path, std::string c_arg_1,
-                std::string c_result)
+        result(std::move(c_result)),
+        path(std::move(path)) {}
+  CommandStatus(std::string c_type, uint32_t c_line, std::string path,
+                std::string c_arg_1, std::string c_result)
       : type(std::move(c_type)),
         line(c_line),
         arg_1(std::move(c_arg_1)),
-        result(std::move(c_result)), path(std::move(path)) {}
+        result(std::move(c_result)),
+        path(std::move(path)) {}
 };
+}  // namespace UTest
 
-
+namespace UTest {
 struct TestStatus {
   std::string name;
   std::string group_name;
@@ -24914,13 +24923,14 @@ struct TestStatus {
   TestStatus(const TestStatus& other) = default;
   TestStatus(TestStatus&& other) noexcept = default;
 };
+}  // namespace UTest
 
-
+namespace UTest {
 struct TestGroupStatus {
   std::string group_name;
   std::vector<TestStatus> tests_history;
   std::chrono::duration<double> group_execution_time;
-  std::string result = KEYWORD_PASSED;
+  std::string result = UTEST_KEYWORD_PASSED;
   TestGroupStatus() = delete;
   TestGroupStatus(const TestGroupStatus& other) = default;
   TestGroupStatus(std::string name) : group_name(std::move(name)) {}
@@ -24930,8 +24940,9 @@ struct TestGroupStatus {
         group_execution_time(other.group_execution_time),
         result(std::move(other.result)) {}
 };
+}  // namespace UTest
 
-
+namespace UTest {
 class TestResult {
   static const std::string TESTS_STR_;
   static const std::string RES_STR_;
@@ -24972,7 +24983,7 @@ class TestResult {
   void SetPathToAutoSave(const std::string& path) { path_to_auto_save_ = path; }
   void AddTestStatus(const TestStatus& test) {
     if (json_storage_.find(test.group_name) == json_storage_.end()) {
-      json_storage_[test.group_name][RES_STR_] = KEYWORD_UNDEFINED_RESULT;
+      json_storage_[test.group_name][RES_STR_] = UTEST_KEYWORD_UNDEFINED_RESULT;
       json_storage_[test.group_name][EXEC_STR_] = 0.0;
     }
     json_storage_[test.group_name][TESTS_STR_][test.name][RES_STR_] =
@@ -25093,9 +25104,10 @@ const std::string TestResult::COMMANDS_STR_ = "commands";
 const std::string TestResult::GROUP_STR_ = "group_name";
 const std::string TestResult::LINE_STR_ = "line";
 const std::string TestResult::PATH_STR_ = "path";
-
+}  // namespace UTest
 #include <iomanip>
 
+namespace UTestInfrastructure {
 namespace StdOstreamTest {
 size_t block_width = 50;
 std::string AlignOnRightString(const std::string& str, size_t total_sz,
@@ -25125,39 +25137,40 @@ std::string AlignOnCenterString(const std::string& str, size_t total_sz,
 }
 void DisplayTestStartOstream(std::ostream& o_stream, const std::string& group,
                              const std::string& name) {
-  o_stream << ConsoleColorsConfig::GetColorCode(
-                  ConsoleColorsConfig::common_color)
+  o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+                  UTest::ConsoleColorsConfig::common_color)
            << "  | ";
-  o_stream << ConsoleColorsConfig::GetColorCode(
-                  ConsoleColorsConfig::test_start_color)
-           << " [ " << std::setw(6) << std::left << KEYWORD_TEST_START << " ] "
-           << name << ConsoleColorsConfig::GetColorCode("reset") << std::endl;
+  o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+                  UTest::ConsoleColorsConfig::test_start_color)
+           << " [ " << std::setw(6) << std::left << UTEST_KEYWORD_TEST_START
+           << " ] " << name << UTest::ConsoleColorsConfig::GetColorCode("reset")
+           << std::endl;
 }
 void DisplayGroupStartOstream(std::ostream& o_stream,
                               const std::string& group_name) {
-  o_stream << ConsoleColorsConfig::GetColorCode(
-                  ConsoleColorsConfig::common_color)
+  o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+                  UTest::ConsoleColorsConfig::common_color)
            << '|'
            << AlignOnCenterString(' ' + group_name + ' ', block_width - 2, '-')
            << "|\n"
            << "  v " << std::string(block_width - 8, '~') << " v\n"
-           << ConsoleColorsConfig::GetColorCode("reset");
+           << UTest::ConsoleColorsConfig::GetColorCode("reset");
 }
 void DisplayCommandResultOstream(std::ostream& o_stream,
-                                 const CommandStatus& command_status) {
-  o_stream << ConsoleColorsConfig::GetColorCode(
-                  ConsoleColorsConfig::common_color)
+                                 const UTest::CommandStatus& command_status) {
+  o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+                  UTest::ConsoleColorsConfig::common_color)
            << "  | ";
-  if (command_status.result == KEYWORD_PASSED) {
-    o_stream << ConsoleColorsConfig::GetColorCode(
-        ConsoleColorsConfig::command_passed_color);
-  } else if (command_status.result == KEYWORD_FAILED ||
-             command_status.result == KEYWORD_EXCEPTION_FAILED) {
-    o_stream << ConsoleColorsConfig::GetColorCode(
-        ConsoleColorsConfig::command_failed_color);
+  if (command_status.result == UTEST_KEYWORD_PASSED) {
+    o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+        UTest::ConsoleColorsConfig::command_passed_color);
+  } else if (command_status.result == UTEST_KEYWORD_FAILED ||
+             command_status.result == UTEST_KEYWORD_EXCEPTION_FAILED) {
+    o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+        UTest::ConsoleColorsConfig::command_failed_color);
   } else {
-    o_stream << ConsoleColorsConfig::GetColorCode(
-        ConsoleColorsConfig::command_fatal_failed_color);
+    o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+        UTest::ConsoleColorsConfig::command_fatal_failed_color);
   }
   o_stream << "   ~ " << std::setw(6) << std::right
            << ("[" + std::to_string(command_status.line) + "]") << " "
@@ -25166,69 +25179,69 @@ void DisplayCommandResultOstream(std::ostream& o_stream,
                (!command_status.arg_2.empty() ? ", " + command_status.arg_2
                                               : "") +
                ") ");
-  o_stream << ConsoleColorsConfig::GetColorCode("reset");
-  if (OutputConfig::is_command_failed_path_enabled &&
-      command_status.result != KEYWORD_PASSED) {
+  o_stream << UTest::ConsoleColorsConfig::GetColorCode("reset");
+  if (UTest::OutputConfig::is_command_failed_path_enabled &&
+      command_status.result != UTEST_KEYWORD_PASSED) {
     o_stream << "in file: " << command_status.path << ":"
              << command_status.line;
   }
   o_stream << '\n';
 }
 void DisplayTestResultOstream(std::ostream& o_stream,
-                              const TestStatus& test_status) {
-  if (OutputConfig::is_always_detailed ||
-      (OutputConfig::is_failed_detailed &&
-       test_status.result != KEYWORD_PASSED)) {
-    for (const CommandStatus& command : test_status.commands_history) {
+                              const UTest::TestStatus& test_status) {
+  if (UTest::OutputConfig::is_always_detailed ||
+      (UTest::OutputConfig::is_failed_detailed &&
+       test_status.result != UTEST_KEYWORD_PASSED)) {
+    for (const UTest::CommandStatus& command : test_status.commands_history) {
       DisplayCommandResultOstream(o_stream, command);
     }
   }
-  o_stream << ConsoleColorsConfig::GetColorCode(
-                  ConsoleColorsConfig::common_color)
+  o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+                  UTest::ConsoleColorsConfig::common_color)
            << "  | ";
   std::string path_tmp;
-  if (test_status.result == KEYWORD_PASSED) {
-    o_stream << ConsoleColorsConfig::GetColorCode(
-        ConsoleColorsConfig::test_passed_color);
+  if (test_status.result == UTEST_KEYWORD_PASSED) {
+    o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+        UTest::ConsoleColorsConfig::test_passed_color);
   } else {
-    o_stream << ConsoleColorsConfig::GetColorCode(
-        ConsoleColorsConfig::test_failed_color);
-    if (OutputConfig::is_test_failed_path_enabled) {
+    o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+        UTest::ConsoleColorsConfig::test_failed_color);
+    if (UTest::OutputConfig::is_test_failed_path_enabled) {
       path_tmp = "in file: " + test_status.path + ':' +
                  std::to_string(test_status.line);
     }
   }
   o_stream << " [ " << std::setw(6) << std::right << test_status.result << " ] "
-           << ConsoleColorsConfig::GetColorCode("reset");
+           << UTest::ConsoleColorsConfig::GetColorCode("reset");
   o_stream << std::setw(block_width - 16) << std::left
            << (std::to_string(test_status.execution_time.count()) + "s ")
            << path_tmp << '\n';
 }
 void DisplayGroupResultOstream(std::ostream& o_stream,
-                               const TestGroupStatus& group_status) {
-  o_stream << ConsoleColorsConfig::GetColorCode(
-      ConsoleColorsConfig::common_color);
+                               const UTest::TestGroupStatus& group_status) {
+  o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+      UTest::ConsoleColorsConfig::common_color);
   o_stream << ("  ^ " + std::string(block_width - 8, '~') + " ^\n");
-  o_stream << ConsoleColorsConfig::GetColorCode(
-                  ConsoleColorsConfig::common_color)
+  o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+                  UTest::ConsoleColorsConfig::common_color)
            << '|'
            << AlignOnCenterString(' ' + group_status.group_name + ' ',
                                   block_width - 2, '-')
            << "|\n";
   std::string res_text;
-  if (group_status.result == KEYWORD_FAILED) {
-    o_stream << ConsoleColorsConfig::GetColorCode(
-        ConsoleColorsConfig::group_failed_color);
-    res_text = KEYWORD_FAILED;
+  if (group_status.result == UTEST_KEYWORD_FAILED) {
+    o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+        UTest::ConsoleColorsConfig::group_failed_color);
+    res_text = UTEST_KEYWORD_FAILED;
   } else {
-    o_stream << ConsoleColorsConfig::GetColorCode(
-        ConsoleColorsConfig::group_passed_color);
-    res_text = KEYWORD_PASSED;
+    o_stream << UTest::ConsoleColorsConfig::GetColorCode(
+        UTest::ConsoleColorsConfig::group_passed_color);
+    res_text = UTEST_KEYWORD_PASSED;
   }
   size_t tests_passed = 0;
   size_t tests_failed = 0;
-  for (const TestStatus& test : group_status.tests_history) {
-    if (test.result == KEYWORD_PASSED) {
+  for (const UTest::TestStatus& test : group_status.tests_history) {
+    if (test.result == UTEST_KEYWORD_PASSED) {
       ++tests_passed;
     } else {
       ++tests_failed;
@@ -25255,37 +25268,43 @@ void DisplayGroupResultOstream(std::ostream& o_stream,
                " sec")
            << " |\n";
   o_stream << ("|" + std::string(block_width - 2, '-') + "|\n");
-  o_stream << ConsoleColorsConfig::GetColorCode("reset");
+  o_stream << UTest::ConsoleColorsConfig::GetColorCode("reset");
   o_stream << "\n\n";
 }
 }  // namespace StdOstreamTest
+}  // namespace UTestInfrastructure
 
 std::ostream& operator<<(std::ostream& o_stream,
-                         const CommandStatus& command_status) {
-  StdOstreamTest::DisplayCommandResultOstream(o_stream, command_status);
+                         const UTest::CommandStatus& command_status) {
+  UTestInfrastructure::StdOstreamTest::DisplayCommandResultOstream(
+      o_stream, command_status);
   return o_stream;
 }
 
 std::ostream& operator<<(std::ostream& o_stream,
-                         const TestStatus& test_status) {
-  StdOstreamTest::DisplayTestStartOstream(o_stream, test_status.group_name,
-                                          test_status.name);
-  StdOstreamTest::DisplayTestResultOstream(o_stream, test_status);
+                         const UTest::TestStatus& test_status) {
+  UTestInfrastructure::StdOstreamTest::DisplayTestStartOstream(
+      o_stream, test_status.group_name, test_status.name);
+  UTestInfrastructure::StdOstreamTest::DisplayTestResultOstream(o_stream,
+                                                                test_status);
   return o_stream;
 }
 
 std::ostream& operator<<(std::ostream& o_stream,
-                         const TestGroupStatus& group_status) {
-  StdOstreamTest::DisplayGroupStartOstream(o_stream, group_status.group_name);
-  for (const TestStatus& test : group_status.tests_history) {
+                         const UTest::TestGroupStatus& group_status) {
+  UTestInfrastructure::StdOstreamTest::DisplayGroupStartOstream(
+      o_stream, group_status.group_name);
+  for (const UTest::TestStatus& test : group_status.tests_history) {
     o_stream << test;
   }
-  StdOstreamTest::DisplayGroupResultOstream(o_stream, group_status);
+  UTestInfrastructure::StdOstreamTest::DisplayGroupResultOstream(o_stream,
+                                                                 group_status);
   return o_stream;
 }
 
-std::ostream& operator<<(std::ostream& o_stream, const TestResult& test_res) {
-  std::unordered_map<std::string, TestGroupStatus> test_map(
+std::ostream& operator<<(std::ostream& o_stream,
+                         const UTest::TestResult& test_res) {
+  std::unordered_map<std::string, UTest::TestGroupStatus> test_map(
       std::move(test_res.GetTestGroupStatusMap()));
   for (auto& pair : test_map) {
     o_stream << pair.second;
@@ -25294,22 +25313,14 @@ std::ostream& operator<<(std::ostream& o_stream, const TestResult& test_res) {
 }
 
 
+namespace UTestInfrastructure {
 class TestIOManager {
-  static TestResult general_test_output_;
+  static UTest::TestResult general_test_output_;
 
  public:
-  static void ToggleOStream() noexcept {
-    OutputConfig::o_cout_stream_enabled = !OutputConfig::o_cout_stream_enabled;
-  }
-  static void ToggleOCerrStream() noexcept {
-    OutputConfig::o_cerr_stream_enabled = !OutputConfig::o_cerr_stream_enabled;
-  }
-  static void SwitchStreams() noexcept {
-    ToggleOStream();
-    ToggleOCerrStream();
-  }
   static void ToggleOJsonFile(const std::string& new_path = "") noexcept {
-    OutputConfig::o_json_file_enabled = !OutputConfig::o_json_file_enabled;
+    UTest::OutputConfig::o_json_file_enabled =
+        !UTest::OutputConfig::o_json_file_enabled;
     if (!new_path.empty()) {
       SetOutputJsonFilePath(new_path);
     }
@@ -25317,75 +25328,67 @@ class TestIOManager {
       general_test_output_.ToggleAutoSave();
     }
   }
-  static bool IsOStreamEnabled() noexcept {
-    return OutputConfig::o_cout_stream_enabled;
-  }
-  static bool IsOCerrStreamEnabled() noexcept {
-    return OutputConfig::o_cerr_stream_enabled;
-  }
-  static bool IsOJsonFileEnabled() noexcept {
-    return OutputConfig::o_json_file_enabled;
-  }
   static void SetOutputJsonFilePath(const std::string& new_path) noexcept {
     general_test_output_.SetPathToAutoSave(new_path);
   }
-  static void OutputTestResult(const TestStatus& test_status) {
-    if (OutputConfig::o_cout_stream_enabled) {
+  static void OutputTestResult(const UTest::TestStatus& test_status) {
+    if (UTest::OutputConfig::o_cout_stream_enabled) {
       StdOstreamTest::DisplayTestResultOstream(std::cout, test_status);
     }
-    if (OutputConfig::o_cerr_stream_enabled) {
+    if (UTest::OutputConfig::o_cerr_stream_enabled) {
       StdOstreamTest::DisplayTestResultOstream(std::cerr, test_status);
     }
-    if (OutputConfig::o_json_file_enabled) {
+    if (UTest::OutputConfig::o_json_file_enabled) {
       general_test_output_.AddTestStatus(test_status);
     }
   }
   static void OutputTestStart(const std::string& group,
                               const std::string& name) {
-    if (OutputConfig::o_cout_stream_enabled) {
+    if (UTest::OutputConfig::o_cout_stream_enabled) {
       StdOstreamTest::DisplayTestStartOstream(std::cout, group, name);
     }
-    if (OutputConfig::o_cerr_stream_enabled) {
+    if (UTest::OutputConfig::o_cerr_stream_enabled) {
       StdOstreamTest::DisplayTestStartOstream(std::cerr, group, name);
     }
   }
-  static void OutputGroupResult(const TestGroupStatus& group_status) {
-    if (OutputConfig::o_cout_stream_enabled) {
+  static void OutputGroupResult(const UTest::TestGroupStatus& group_status) {
+    if (UTest::OutputConfig::o_cout_stream_enabled) {
       StdOstreamTest::DisplayGroupResultOstream(std::cout, group_status);
     }
-    if (OutputConfig::o_cerr_stream_enabled) {
+    if (UTest::OutputConfig::o_cerr_stream_enabled) {
       StdOstreamTest::DisplayGroupResultOstream(std::cerr, group_status);
     }
-    if (OutputConfig::o_json_file_enabled) {
+    if (UTest::OutputConfig::o_json_file_enabled) {
       general_test_output_.AddGroupStatus(group_status);
     }
   }
   static void OutputGroupStart(const std::string& group_name) {
-    if (OutputConfig::o_cout_stream_enabled) {
+    if (UTest::OutputConfig::o_cout_stream_enabled) {
       StdOstreamTest::DisplayGroupStartOstream(std::cout, group_name);
     }
-    if (OutputConfig::o_cerr_stream_enabled) {
+    if (UTest::OutputConfig::o_cerr_stream_enabled) {
       StdOstreamTest::DisplayGroupStartOstream(std::cerr, group_name);
     }
   }
 };
 
-TestResult TestIOManager::general_test_output_;
+UTest::TestResult TestIOManager::general_test_output_;
+}  // namespace UTestInfrastructure
 
-
+namespace UTestInfrastructure {
 class Test {
  private:
   std::string name_;
   std::string group_;
   uint32_t line_;
   std::string path_;
-  std::vector<CommandStatus>* commands_vec_ = nullptr;
+  std::vector<UTest::CommandStatus>* commands_vec_ = nullptr;
   bool is_passed_temp_ = true;
   virtual void TestBody() = 0;
 
  protected:
   static const std::set<std::string> FAILED_STRINGS;
-  void UpdateStatus(const CommandStatus& command_result) {
+  void UpdateStatus(const UTest::CommandStatus& command_result) {
     if (FAILED_STRINGS.find(command_result.result) != FAILED_STRINGS.end()) {
       is_passed_temp_ = false;
     }
@@ -25403,16 +25406,17 @@ class Test {
 
  public:
   Test(const Test& other) = delete;
-  TestStatus Execute() {
+  UTest::TestStatus Execute() {
     is_passed_temp_ = true;
     TestIOManager::OutputTestStart(group_, name_);
-    TestStatus answer(name_, group_, line_, path_);
+    UTest::TestStatus answer(name_, group_, line_, path_);
     commands_vec_ = &answer.commands_history;
     const auto start_time = std::chrono::high_resolution_clock::now();
     TestBody();
     const auto stop_time = std::chrono::high_resolution_clock::now();
     answer.execution_time = stop_time - start_time;
-    answer.result = is_passed_temp_ ? KEYWORD_PASSED : KEYWORD_FAILED;
+    answer.result =
+        is_passed_temp_ ? UTEST_KEYWORD_PASSED : UTEST_KEYWORD_FAILED;
     commands_vec_ = nullptr;
     TestIOManager::OutputTestResult(answer);
     return answer;
@@ -25420,10 +25424,13 @@ class Test {
 };
 
 const std::set<std::string> Test::FAILED_STRINGS = {
-    KEYWORD_FAILED, KEYWORD_EXCEPTION_FAILED, KEYWORD_FATAL_FAILED,
-    KEYWORD_EXCEPTION_FATAL_FAILED};
+    UTEST_KEYWORD_FAILED, UTEST_KEYWORD_EXCEPTION_FAILED,
+    UTEST_KEYWORD_FATAL_FAILED, UTEST_KEYWORD_EXCEPTION_FATAL_FAILED};
+
+}  // namespace UTestInfrastructure
 
 
+namespace UTestInfrastructure {
 class TestGroup {
  private:
   std::string group_name_;
@@ -25434,14 +25441,14 @@ class TestGroup {
   TestGroup(const TestGroup& other) = default;
   TestGroup(std::string name) : group_name_(std::move(name)) {}
   void AddTest(Test* test) { tests_.push_back(test); }
-  TestGroupStatus Execute() {
-    TestGroupStatus answer(group_name_);
+  UTest::TestGroupStatus Execute() {
+    UTest::TestGroupStatus answer(group_name_);
     TestIOManager::OutputGroupStart(group_name_);
     const auto start_time = std::chrono::high_resolution_clock::now();
     for (Test* test : tests_) {
       answer.tests_history.push_back(test->Execute());
-      if (answer.tests_history.back().result == KEYWORD_FAILED) {
-        answer.result = KEYWORD_FAILED;
+      if (answer.tests_history.back().result == UTEST_KEYWORD_FAILED) {
+        answer.result = UTEST_KEYWORD_FAILED;
       }
     }
     const auto stop_time = std::chrono::high_resolution_clock::now();
@@ -25450,8 +25457,9 @@ class TestGroup {
     return answer;
   }
 };
+}  // namespace UTestInfrastructure
 
-
+namespace UTestInfrastructure {
 class TestRegistry {
   static std::unordered_map<std::string, TestGroup> test_groups_;
   static std::unordered_map<std::string, Test*> test_all_;
@@ -25468,11 +25476,11 @@ class TestRegistry {
     test_groups_.find(group_name)->second.AddTest(test);
     test_all_[name] = test;
   }
-  static TestResult ExecuteTest(const std::string& test_name) noexcept {
-    TestResult test_result;
+  static UTest::TestResult ExecuteTest(const std::string& test_name) noexcept {
+    UTest::TestResult test_result;
     auto it = test_all_.find(test_name);
     if (it != test_all_.end()) {
-      TestStatus test_status_temp(it->second->Execute());
+      UTest::TestStatus test_status_temp(it->second->Execute());
       test_result.AddTestStatus(test_status_temp);
     } else {
       std::cerr << "ExecuteTest: there is no test known as " << test_name
@@ -25480,10 +25488,11 @@ class TestRegistry {
     }
     return test_result;
   }
-  static TestResult ExecuteTestGroup(const std::string& group_name) noexcept {
-    TestResult test_result;
+  static UTest::TestResult ExecuteTestGroup(
+      const std::string& group_name) noexcept {
+    UTest::TestResult test_result;
     if (test_groups_.find(group_name) != test_groups_.end()) {
-      TestGroupStatus group_status_temp(
+      UTest::TestGroupStatus group_status_temp(
           test_groups_.find(group_name)->second.Execute());
       test_result.AddGroupStatus(group_status_temp);
     } else {
@@ -25492,10 +25501,10 @@ class TestRegistry {
     }
     return test_result;
   }
-  static TestResult ExecuteTestAll() noexcept {
-    TestResult tests_result;
+  static UTest::TestResult ExecuteTestAll() noexcept {
+    UTest::TestResult tests_result;
     for (std::pair<const std::string, TestGroup>& curr_group : test_groups_) {
-      TestGroupStatus group_status_temp(curr_group.second.Execute());
+      UTest::TestGroupStatus group_status_temp(curr_group.second.Execute());
       tests_result.AddGroupStatus(group_status_temp);
     }
     return tests_result;
@@ -25504,9 +25513,11 @@ class TestRegistry {
 
 std::unordered_map<std::string, TestGroup> TestRegistry::test_groups_;
 std::unordered_map<std::string, Test*> TestRegistry::test_all_;
+}  // namespace UTestInfrastructure
 
 
 #define TEST(test_name, test_group)                                   \
+  namespace UTestInfrastructure {                                     \
   class test_name : public Test {                                     \
    public:                                                            \
     test_name() : Test(#test_name, #test_group, __LINE__, __FILE__) { \
@@ -25516,43 +25527,89 @@ std::unordered_map<std::string, Test*> TestRegistry::test_all_;
     void TestBody() override;                                         \
   };                                                                  \
   test_name Test##test_name;                                          \
-  void test_name::TestBody()
+  }                                                                   \
+  void UTestInfrastructure::test_name::TestBody()
 
 
-// Test statements:
+namespace UTest {
+TestResult ExecuteTest(const std::string& test_name) noexcept {
+  return UTestInfrastructure::TestRegistry::ExecuteTest(test_name);
+}
+TestResult ExecuteTestGroup(const std::string& group_name) noexcept {
+  return UTestInfrastructure::TestRegistry::ExecuteTestGroup(group_name);
+}
+TestResult ExecuteTestAll() noexcept {
+  return UTestInfrastructure::TestRegistry::ExecuteTestAll();
+}
+void ToggleOStream() noexcept {
+  OutputConfig::o_cout_stream_enabled = !OutputConfig::o_cout_stream_enabled;
+}
+void ToggleOCerrStream() noexcept {
+  OutputConfig::o_cerr_stream_enabled = !OutputConfig::o_cerr_stream_enabled;
+}
+void SwitchStreams() noexcept {
+  ToggleOStream();
+  ToggleOCerrStream();
+}
+void ToggleOJsonFile(const std::string& new_path = "") noexcept {
+  UTestInfrastructure::TestIOManager::ToggleOJsonFile(new_path);
+}
+bool IsOStreamEnabled() noexcept {
+  return OutputConfig::o_cout_stream_enabled;
+}
+bool IsOCerrStreamEnabled() noexcept {
+  return OutputConfig::o_cerr_stream_enabled;
+}
+bool IsOJsonFileEnabled() noexcept {
+  return OutputConfig::o_json_file_enabled;
+}
+void SetOutputJsonFilePath(const std::string& new_path) noexcept {
+  UTestInfrastructure::TestIOManager::SetOutputJsonFilePath(new_path);
+}
+}  // namespace UTest
+
+// asserts
 
 
 #define ASSERT_TRUE(statement)                                                \
   try {                                                                       \
     if (statement) {                                                          \
-      UpdateStatus(CommandStatus("ASSERT_TRUE", __LINE__, __FILE__,           \
-                                 #statement, KEYWORD_PASSED));                \
+      UpdateStatus(UTest::CommandStatus("ASSERT_TRUE", __LINE__, __FILE__,    \
+                                        #statement, UTEST_KEYWORD_PASSED));   \
     } else {                                                                  \
-      UpdateStatus(CommandStatus("ASSERT_TRUE", __LINE__, __FILE__,           \
-                                 #statement, KEYWORD_FATAL_FAILED));          \
+      UpdateStatus(UTest::CommandStatus("ASSERT_TRUE", __LINE__, __FILE__,    \
+                                        #statement,                           \
+                                        UTEST_KEYWORD_FATAL_FAILED));         \
       return;                                                                 \
     }                                                                         \
   } catch (...) {                                                             \
-    UpdateStatus(CommandStatus("ASSERT_TRUE", __LINE__, __FILE__, #statement, \
-                               KEYWORD_EXCEPTION_FATAL_FAILED));              \
+    UpdateStatus(UTest::CommandStatus("ASSERT_TRUE", __LINE__, __FILE__,      \
+                                      #statement,                             \
+                                      UTEST_KEYWORD_EXCEPTION_FATAL_FAILED)); \
     return;                                                                   \
   }
 
 
+// expects
 
-#define EXPECT_TRUE(statement)                                                \
-  try {                                                                       \
-    if (statement) {                                                          \
-      UpdateStatus(CommandStatus("EXPECT_TRUE", __LINE__, __FILE__,           \
-                                 #statement, KEYWORD_PASSED));                \
-    } else {                                                                  \
-      UpdateStatus(CommandStatus("EXPECT_TRUE", __LINE__, __FILE__,           \
-                                 #statement, KEYWORD_FAILED));                \
-    }                                                                         \
-  } catch (...) {                                                             \
-    UpdateStatus(CommandStatus("EXPECT_TRUE", __LINE__, __FILE__, #statement, \
-                               KEYWORD_EXCEPTION_FAILED));                    \
+
+#define EXPECT_TRUE(statement)                                              \
+  try {                                                                     \
+    if (statement) {                                                        \
+      UpdateStatus(UTest::CommandStatus("EXPECT_TRUE", __LINE__, __FILE__,  \
+                                        #statement, UTEST_KEYWORD_PASSED)); \
+    } else {                                                                \
+      UpdateStatus(UTest::CommandStatus("EXPECT_TRUE", __LINE__, __FILE__,  \
+                                        #statement, UTEST_KEYWORD_FAILED)); \
+    }                                                                       \
+  } catch (...) {                                                           \
+    UpdateStatus(UTest::CommandStatus("EXPECT_TRUE", __LINE__, __FILE__,    \
+                                      #statement,                           \
+                                      UTEST_KEYWORD_EXCEPTION_FAILED));     \
   }
+
+
+
 
 
 
