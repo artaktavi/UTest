@@ -1,6 +1,4 @@
-#include <AssertTrueDefine.hpp>
-#include <ExpectTrueDefine.hpp>
-#include <TestDefine.hpp>
+#include <UTest.hpp>
 
 #define UNREACHABLE \
   abort();
@@ -57,8 +55,8 @@ TEST(SDefaultFields, Structs) {
 
 int main() {
   // let's enable all tests auto-saving:
-  TestIOManager::ToggleOJsonFile(); // enabled
-  TestIOManager::SetOutputJsonFilePath("auto_save_tests.json"); // set the path
+  UTest::ToggleOJsonFile(); // enabled
+  UTest::SetOutputJsonFilePath("auto_save_tests.json"); // set the path
   // also it's possible to toggle json saving and set the path in one command:
   // TestIOManager::ToggleOJsonFile("auto_save_tests.json");
 
@@ -68,21 +66,21 @@ int main() {
 
   // now if we execute tests, they will be automatically displayed with cout
   // we can change it by TestIOManager::ToggleOStream();
-  TestIOManager::ToggleOStream(); // no output with cout
-  TestIOManager::ToggleOCerrStream(); // output with cerr enabled
+  UTest::ToggleOStream(); // no output with cout
+  UTest::ToggleOCerrStream(); // output with cerr enabled
 
   std::cerr << "---------- Tests in cerr ----------\n";
-  TestRegistry::ExecuteTestAll(); // we will see results in cerr
+  UTest::ExecuteTestAll(); // we will see results in cerr
 
-  TestIOManager::SwitchStreams(); // toggled cerr and toggled cout
+  UTest::SwitchStreams(); // toggled cerr and toggled cout
 
   std::cout << "---------- Tests in cout ----------\n";
-  TestRegistry::ExecuteTestAll(); // we will see results in cout
+  UTest::ExecuteTestAll(); // we will see results in cout
 
-  TestIOManager::ToggleOStream(); // cout output disabled
+  UTest::ToggleOStream(); // cout output disabled
 
   std::cout << "--------- No tests output ---------\n";
-  TestRegistry::ExecuteTestAll();
+  UTest::ExecuteTestAll();
 
   // now, after executing main.cpp global objects destructors will be invoked
   // after that results made by executing tests will be saved

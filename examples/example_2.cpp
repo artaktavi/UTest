@@ -1,6 +1,4 @@
-#include <AssertTrueDefine.hpp>
-#include <ExpectTrueDefine.hpp>
-#include <TestDefine.hpp>
+#include <UTest.hpp>
 
 #define UNREACHABLE \
   abort();
@@ -61,19 +59,19 @@ TEST(SDefaultFields, Structs) {
 
 int main() {
   // get info from "Functions" tests group
-  TestResult functions_tests = TestRegistry::ExecuteTestGroup("Functions");
+  UTest::TestResult functions_tests = UTest::ExecuteTestGroup("Functions");
 
   // saving them into json file
   functions_tests.SerializeToJson("example_2_functions.json");
 
   // get info from "Structs" tests group
-  TestResult structs_tests = TestRegistry::ExecuteTestGroup("Structs");
+  UTest::TestResult structs_tests = UTest::ExecuteTestGroup("Structs");
 
   // saving into json file
   structs_tests.SerializeToJson("example_2_structs.json");
 
-  // creating TestResult object from "example_2_structs.json"
-  TestResult all_tests;
+  // creating UTest::TestResult object from "example_2_structs.json"
+  UTest::TestResult all_tests;
   all_tests.DeserializeFromJson("example_2_structs.json");
 
   // merging "Functions" tests group into "Structs"

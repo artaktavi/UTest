@@ -44,13 +44,13 @@ Please note that `ASSERT` statement will stop test execution in case of fail, in
 
 ### Test execution
 
-When tests are done, you should execute them to get results: use
+When tests are done, you should execute them to get results. Use:
 
-- `TestRegistry::ExecuteTestAll()` to execute all tests
-- `TestRegistry::ExecuteTestGroup(std::string group_name)` to execute all tests by their group
-- `TestRegistry::ExecuteTest(std::string test_name)` to execute exact test
+- `UTest::ExecuteTestAll()` to execute all tests
+- `UTest::ExecuteTestGroup(std::string group_name)` to execute all tests by their group
+- `UTest::ExecuteTest(std::string test_name)` to execute exact test
 
-All of these methods return `TestResult` class, that you can interact to.
+All of these methods return `UTest::TestResult` class object, that you can interact to.
 
 
 

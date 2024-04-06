@@ -1,6 +1,4 @@
-#include <AssertTrueDefine.hpp>
-#include <ExpectTrueDefine.hpp>
-#include <TestDefine.hpp>
+#include <UTest.hpp>
 
 #include <deque>
 
@@ -35,15 +33,15 @@ TEST(IntPlus, IntTests) {
 int main() {
   // you can run tests by their group:
   std::cout << "--------- Tests by groups ------------\n";
-  TestRegistry::ExecuteTestGroup("DequeTests");
+  UTest::ExecuteTestGroup("DequeTests");
 
   // or you can run tests by individually by:
   std::cout << "-------- Tests by individual ---------\n";
-  TestRegistry::ExecuteTest("DequeSize");
-  TestRegistry::ExecuteTest("DequePtrInvalidation");
+  UTest::ExecuteTest("DequeSize");
+  UTest::ExecuteTest("DequePtrInvalidation");
 
   // or run absolutely all tests:
   std::cout << "------------- All tests --------------\n";
-  TestRegistry::ExecuteTestAll();
+  UTest::ExecuteTestAll();
   return 0;
 }
