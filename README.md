@@ -7,6 +7,9 @@ _**Contents:**_
   - [Tests writing](README.md#tests-writing)
   - [Verification statements](README.md#asserts-and-expects)
   - [Collecting data](README.md#getting-data)
+    - [Stdout\Stderr](README.md#stdout\stderr)
+    - [TestResult class](README.md#test-result-class)
+    - [Status classes](README.md#status-classes)
   - [Conversion to json (and back)](README.md#json-conversion)
 - [Examples](README.md#examples)
 - [Installation](README.md#installation)
@@ -179,7 +182,7 @@ _**Methods:**_:
 
 
 
-Also there such secondary methods as:
+Also there are such secondary methods as:
 
 - Constructors from:
   - `const TestResult&` - copy constructor
@@ -193,23 +196,53 @@ Also there such secondary methods as:
 
 #### Status classes
 
-- 
+These data structs have only simple public fields you can read easily in code. You can get object of status classes from `UTest::TestResult` by invoking it's `GetTestGroupStatusMap()` method (that's the only way to get it as tests execution data).
 
-- Execution status classes like:
+- `UTest::CommandStatus` - describes one statement such as `ASSERT` or `EXPECT`. Have fields:
+  - `std::string type` - describes what statement it is `assert` or `expect`
+  - `uint32_t line` - number of line where statement is written
+  - `std::string arg_1` - first argument
+  - `std::string arg_2` - second argument
+  - `std::string result` - result of command verifying
+  - `std::string path` - path to file where statement located
 
-  - `UTest::TestGroupStatus`
-  - `UTest::TestStatus`
-  - `UTest::CommandStatus`
+- `UTest::TestStatus`
+  - `std::string name` - name of this test
+  - `std::string group_name` - name of it's group
+  - `uint32_t line` - number of line where test is written
+  - `std::vector<CommandStatus> commands_history` - test's commands execution history
+  - `std::chrono::duration<double> execution_time` - time spent for test
+  - `std::string result` - result of test
+  - `std::string path` - path to file where test located
+- `UTest::TestGroupStatus`
+  - `std::string group_name` - name this group
+  - `std::vector<TestStatus> tests_history;` - group's tests execution history
+  - `std::chrono::duration<double> group_execution_time` - time spent for this tests group
+  - `std::string result` - result of this group
 
-  These data structs have simple fields you can read easily. You can get object of status classes from `UTest::TestResult` by invoking it's `GetTestGroupStatusMap()` method.
 
-- `.json` files. 
+
+In these types UTest uses some standard string values (as macros) to specify results:
+
+- `UTEST_KEYWORD_UNDEFINED_RESULT`, `UTEST_KEYWORD_TEST_START`, `UTEST_KEYWORD_PASSED`, `UTEST_KEYWORD_FAILED`, `UTEST_KEYWORD_EXCEPTION_FAILED`, `UTEST_KEYWORD_FATAL_FAILED`, `UTEST_KEYWORD_EXCEPTION_FATAL_FAILED`
+
+So that's all values `result` variables can take.
 
 
 
 ### Json conversion 
 
-auto-json saving
+Serializing to `.json` format is implemented as `SerializeToJson(std::string path = "")` method of `TestResult` class. Deserialization works in a similar way via `DeserializeFromJson(const std::string& path)` method of the same class.
+
+
+
+Also, in UTest there is json auto-save option. Every test you execute will be written to json after end of program automatically, you just need to...
+
+1. `UTest::ToggleOJsonFile(const std::string& new_path = "")` - use this method to toggle json auto-output
+2. `UTest::SetOutputJsonFilePath(const std::string& new_path)` - use this method to specify path where to save `.json` file (it's `"utest_report.json"` by default)
+3. `UTest::IsOJsonFileEnabled()` - returns `true` if json auto-output is enabled
+
+
 
 ## Examples
 
