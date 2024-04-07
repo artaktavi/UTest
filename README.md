@@ -54,7 +54,7 @@ _**Tips:**_
 
 ### Asserts and expects
 
-You can use `ASSERT_TRUE` and `EXPECT_TRUE` keywords to verify some statement:
+You can use `ASSERT_TRUE` and `EXPECT_TRUE` keywords ("commands" in this text) to verify some statement:
 
 ```cpp
 TEST(MyTestName, Common) {
@@ -123,31 +123,34 @@ By default UTest uses `std::cout` and `std::cerr` for displaying tests execution
 
 
 
-Also there are a lot of cosmetic output settings such as:
+Also there are a some _**cosmetic output settings**_ such as:
 
 - **Console colors configuration:** here is the list of parameters you can specify to change log colors:
+  Use `UTest::ConsoleColorsConfig::<parameter> = <value>` to change configuration.
 
-  - `common_color` - color of log decoration
+  - `common_color` - color of log decoration (`"blue"` by default)
+  - `group_passed_color` - color of tests group output block if it's succeeded (`"green"` by default)
+  - `group_failed_color` - tests group block color in case of fail (`"red"` by default)
+  - `test_start_color` - color that display run of test (`"blue"` by default)
+  - `test_passed_color` - color displaying test passing (`"green"` by default)
+  - `test_failed_color` - color representing failure of test (`"red"` by default)
+  - `command_passed_color` - color of passed statement (like `ASSERT` or `EXPECT`) (`"yellow"` by default)
+  - `command_failed_color` - color of failed statement (`"red"` by default)
+  - `command_fatal_failed_color` - used for highlighting fatal failed `ASSERT`s (`"red"` by default)
 
-  - `group_passed_color` - color of tests group output block if it's succeeded
+  You can specify any of these parameters by values (_**colors**_) in list below:
 
-  - `group_failed_color` - tests group block color in case of fail
+  - `"reset"` - switches console color to default, `"black"`, `"red"`, `"green"`, `"yellow"`, `"blue"`, `"magenta"`, `"cyan"`, `"white"`, `"brightblack"`, `"brightred"`, `"brightgreen"`, `"brightyellow"`, `"brightblue"`, `"brightmagenta"`, `"brightcyan"`, `"brightwhite"`
 
-  - `test_start_color` - color that display run of test
+- **Output configuration:** responsible for extra information in log
 
-  - `test_passed_color` - color displaying test passing
-
-  - `test_failed_color` - color representing failure of test
-
-  - `command_passed_color` - color of passed verifying statement (like `ASSERT` or `EXPECT`)
-
-  - `command_failed_color` - color of failed statement
-
-  - `command_fatal_failed_color` - color used for highlighting fatal failed statements (`ASSERT`s)
-
-    
+  - `is_failed_detailed` - if `true` shows all verifying statements of failed tests (`true` by default)
+  - `is_always_detailed` - make UTest output every command of every test (`false` by default)
+  - `is_command_failed_path_enabled` - shows path to failed command (`false` by default)
+  - `is_test_failed_path_enabled` - shows path to failed test (`true` by default)
 
 
+  You can use `UTest::OutputConfig::<parameter> = <true | false>` to change some settings
 
 
 
