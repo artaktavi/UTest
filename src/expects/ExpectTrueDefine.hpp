@@ -15,4 +15,5 @@
     UpdateStatus(UTest::CommandStatus("EXPECT_TRUE", __LINE__, __FILE__,    \
                                       #statement,                           \
                                       UTEST_KEYWORD_EXCEPTION_FAILED));     \
+    throw;                                                                  \
   }

@@ -7,7 +7,8 @@
 
 namespace UTestInfrastructure {
 namespace StdOstreamTest {
-size_t block_width = 50;
+size_t block_width = 34;
+size_t stats_symbols_count = 10;
 std::string AlignOnRightString(const std::string& str, size_t total_sz,
                                char filler) {
   std::string res;
@@ -152,17 +153,17 @@ void DisplayGroupResultOstream(std::ostream& o_stream,
   o_stream << ("|" + std::string(block_width - 2, '-') + "|\n");
   o_stream << "| " << std::setw(block_width - 4) << std::left
            << ("tests passed:   " +
-               AlignOnRightString(std::to_string(tests_passed), 16, '.'))
+               AlignOnRightString(std::to_string(tests_passed), stats_symbols_count, '.'))
            << " |\n";
   o_stream << "| " << std::setw(block_width - 4) << std::left
            << ("tests failed:   " +
-               AlignOnRightString(std::to_string(tests_failed), 16, '.'))
+               AlignOnRightString(std::to_string(tests_failed), stats_symbols_count, '.'))
            << " |\n";
   o_stream << "| " << std::setw(block_width - 4) << std::left
            << ("execution time: " +
                AlignOnRightString(
                    std::to_string(group_status.group_execution_time.count()),
-                   16, '.') +
+                   stats_symbols_count, '.') +
                " sec")
            << " |\n";
   o_stream << ("|" + std::string(block_width - 2, '-') + "|\n");

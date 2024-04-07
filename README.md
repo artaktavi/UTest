@@ -2,35 +2,37 @@
 
 _**Contents:**_
 
-- [Description](##description)
-- [Usage](##usage)
-  - [Tests writing](###tests-writing)
-  - [Verification statements](###asserts-and-expects)
-  - [Collecting data](###getting-data)
-  - [Conversion to json (and back)](###json-conversion)
-- [Examples](##examples)
-- [Installation](##installation)
-  - [Single-include](###single-include file)
-  - [Git module](###git module)
-- [Tests for UTest](##running tests for utest)
-- [More docs links](##extra docs links)
+- [Description](README.md#description)
+- [Usage](README.md#usage)
+  - [Tests writing](README.md#tests-writing)
+  - [Verification statements](README.md#asserts-and-expects)
+  - [Collecting data](README.md#getting-data)
+  - [Conversion to json (and back)](README.md#json-conversion)
+- [Examples](README.md#examples)
+- [Installation](README.md#installation)
+  - [Single-include](README.md#single-include file)
+  - [Git module](README.md#git-module)
+- [Tests for UTest](README.md#running-tests-for-utest)
+- [More docs links](README.md#extra-docs-links)
 
 
 
 ## Description
 
-UTest is a unit testing library based on C++11. The main purpose of this project is to provide a convenient and flexible way of writing tests and collecting information. So here are key features of this library:
+UTest is a user-friedly unit testing library based on C++11. The main purpose of this project is to provide a convenient and flexible way of writing tests and collecting information.
 
-- [Simple test writing with `TEST` keyword](###tests-writing)
-- [Verification statements `ASSERT` and `EXPECT`](###asserts-and-expects)
-- [Collecting data from tests](###getting-data)
-- [Saving data to json (and back)](###json-conversion)
+So here are key features of this library:
+
+- [Simple test writing with `TEST` keyword](README.md#tests-writing)
+- [Verification statements `ASSERT` and `EXPECT`](README.md#asserts-and-expects)
+- [Collecting data from tests](README.md#getting-data)
+- [Saving data to json (and back)](README.md#json-conversion)
 
 
 
 ## Usage
 
-Here is a little tutorial of possible ways UTest usage, but first of all, you have to [install UTest](##installation).
+Here is a little tutorial of possible ways UTest usage, but first of all, you have to [install UTest](README.md#installation).
 
 ### Tests writing
 
@@ -44,7 +46,9 @@ TEST(MyTestName, Common) {
 
 Test will register automatically, so that's all you need to do to create test.
 
+_**Tips:**_
 
+- It's more convenient to write tests for your project in different files. For example, split groups of tests into their own files. But don't forget to include tests into `main.cpp` where you can run them.
 
 ### Asserts and expects
 
@@ -57,7 +61,11 @@ TEST(MyTestName, Common) {
 }
 ```
 
-Please note that `ASSERT` statement will stop test execution in case of fail, in opposite `EXPECT` will only indicate that statement inside was wrong.
+_**Features:**_
+
+- You shouldn't put a semicolon (`;`) symbol after keywords (because they are macros at real).
+- `ASSERT` statement _**will stop test execution**_ in case of fail, in opposite `EXPECT` will only indicate that statement inside was wrong. So code after failed `ASSERT` statement will be unreachable.
+- `ASSERT` statements catch exceptions (because it stops test execution), when `EXPECT` throws exception again after it was caught.
 
 
 
@@ -104,8 +112,8 @@ If you want to run one of them, use instruction:
 
 There are several ways you can attach UTest library to your project.
 
-- [Single-include](###single-include file)
-- [Git module](###git module)
+- [Single-include](README.md#single-include file)
+- [Git module](README.md#git module)
 
 
 
