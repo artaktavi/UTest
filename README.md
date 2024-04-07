@@ -10,7 +10,7 @@ _**Contents:**_
   - [Conversion to json (and back)](README.md#json-conversion)
 - [Examples](README.md#examples)
 - [Installation](README.md#installation)
-  - [Single-include](README.md#single-include file)
+  - [Single-include](README.md#single-include-file)
   - [Git module](README.md#git-module)
 - [Tests for UTest](README.md#running-tests-for-utest)
 - [More docs links](README.md#extra-docs-links)
@@ -50,6 +50,8 @@ _**Tips:**_
 
 - It's more convenient to write tests for your project in different files. For example, split groups of tests into their own files. But don't forget to include tests into `main.cpp` where you can run them.
 
+
+
 ### Asserts and expects
 
 You can use `ASSERT_TRUE` and `EXPECT_TRUE` keywords to verify some statement:
@@ -66,24 +68,116 @@ _**Features:**_
 - You shouldn't put a semicolon (`;`) symbol after keywords (because they are macros at real).
 - `ASSERT` statement _**will stop test execution**_ in case of fail, in opposite `EXPECT` will only indicate that statement inside was wrong. So code after failed `ASSERT` statement will be unreachable.
 - `ASSERT` statements catch exceptions (because it stops test execution), when `EXPECT` throws exception again after it was caught.
+- If `EXPECT` failed it's considered that test is `failed`, but in case of `ASSERT` failure test becomes `fatal_failed`. We can see this difference in `UTest::CommandStatus` class [here](README.md#status-classes).
 
 
 
 ### Test execution
 
-When tests are done, you should execute them to get results. Use:
+When tests are done, they must be executed for getting results. Use:
 
 - `UTest::ExecuteTestAll()` to execute all tests
-- `UTest::ExecuteTestGroup(std::string group_name)` to execute all tests by their group
+- `UTest::ExecuteTestGroup(std::string group_name)` to run all tests of particular group
 - `UTest::ExecuteTest(std::string test_name)` to execute exact test
 
 All of these methods return `UTest::TestResult` class object, that you can interact to.
+
+_**Log:**_
+
+You should see execution log in `stdout` while tests execution in case `UTest::IsOStreamEnabled()` was true by the time the tests were run, also in `stderr` if `UTest::IsOCerrStreamEnabled()`.
 
 
 
 ### Getting data
 
+Yeah, execution log while testing is really comfortable for reading, but what if you need to save all you have seen? UTest will help you to solve this problem. Here are some options of tests output:
 
+- [stdout\stderr](README.md#stdout\stderr)  - UTest uses `std::cout` and `std::cerr` for displaying this
+
+- `UTest::TestResult` - it's a flexible object that contains tests results
+
+- Execution status classes like:
+
+  - `UTest::TestGroupStatus`
+  - `UTest::TestStatus`
+  - `UTest::CommandStatus`
+
+  These things are just simple data structs that will help you read information in code easily
+
+- `.json` - static storage of tests output as a file
+
+
+
+#### Stdout\stderr
+
+By default UTest uses `std::cout` and `std::cerr` for displaying tests execution process. There are some options you can use to configure output:
+
+- **Stdout:**
+  - `UTest::ToggleOStream()` function toggles stdout output
+  - `UTest::IsOStreamEnabled()` - true if stdout output enabled
+- **Stderr:**
+  - `UTest::ToggleOCerrStream()` - toggles stderr output
+  - `UTest::IsOCerrStreamEnabled()` - shows is stderr output enabled
+- **Other:**
+  - `UTest::SwitchStreams()` - switches (stdout and stderr) streams by toggling stdout and stderr
+
+
+
+Also there are a lot of cosmetic output settings such as:
+
+- **Console colors configuration:** here is the list of parameters you can specify to change log colors:
+
+  - `common_color` - color of log decoration
+
+  - `group_passed_color` - color of tests group output block if it's succeeded
+
+  - `group_failed_color` - tests group block color in case of fail
+
+  - `test_start_color` - color that display run of test
+
+  - `test_passed_color` - color displaying test passing
+
+  - `test_failed_color` - color representing failure of test
+
+  - `command_passed_color` - color of passed verifying statement (like `ASSERT` or `EXPECT`)
+
+  - `command_failed_color` - color of failed statement
+
+  - `command_fatal_failed_color` - color used for highlighting fatal failed statements (`ASSERT`s)
+
+    
+
+
+
+
+
+#### Test Result class
+
+
+
+#### Status classes
+
+
+
+#### Json files
+
+
+
+
+
+- 
+
+- `UTest::TestResult` - it's a flexible object in which you can write another tests or merge it with another `TestResult`, but - you serialize them into `.json` files and deserialize back
+
+- Execution status classes like:
+
+  - `UTest::TestGroupStatus`
+  - `UTest::TestStatus`
+  - `UTest::CommandStatus`
+
+  These data structs have simple fields you can read easily. You can get object of status classes from `UTest::TestResult` by invoking it's `GetTestGroupStatusMap()` method.
+
+- `.json` files. 
 
 
 
@@ -112,8 +206,8 @@ If you want to run one of them, use instruction:
 
 There are several ways you can attach UTest library to your project.
 
-- [Single-include](README.md#single-include file)
-- [Git module](README.md#git module)
+- [Single-include](README.md#single-include-file)
+- [Git module](README.md#git-module)
 
 
 
@@ -195,6 +289,9 @@ _**Steps:**_
      return 0;
    }
    ```
+
+6. You should see something similar to this:
+   ![Example cout](docs/pictures/exampleCout.png)
 
 
 
