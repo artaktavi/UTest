@@ -1,17 +1,36 @@
 # UTest
 
+_**Contents:**_
+
+- [Description](##description)
+- [Usage](##usage)
+  - [Tests writing](###tests-writing)
+  - [Verification statements](###asserts-and-expects)
+  - [Collecting data](###getting-data)
+  - [Conversion to json (and back)](###json-conversion)
+- [Examples](##examples)
+- [Installation](##installation)
+  - [Single-include](###single-include file)
+  - [Git module](###git module)
+- [Tests for UTest](##running tests for utest)
+- [More docs links](##extra docs links)
+
+
+
+## Description
+
 UTest is a unit testing library based on C++11. The main purpose of this project is to provide a convenient and flexible way of writing tests and collecting information. So here are key features of this library:
 
-- [Simple test writing with `TEST` keyword](#tests-writing)
-- [Verification statements `ASSERT` and `EXPECT`](#asserts-and-expects)
-- [Collecting data from tests](#getting-data)
-- [Saving data to json (and back)](#json-conversion)
+- [Simple test writing with `TEST` keyword](###tests-writing)
+- [Verification statements `ASSERT` and `EXPECT`](###asserts-and-expects)
+- [Collecting data from tests](###getting-data)
+- [Saving data to json (and back)](###json-conversion)
 
 
 
 ## Usage
 
-Here is a little tutorial of possible ways UTest usage:
+Here is a little tutorial of possible ways UTest usage, but first of all, you have to [install UTest](##installation).
 
 ### Tests writing
 
@@ -85,8 +104,8 @@ If you want to run one of them, use instruction:
 
 There are several ways you can attach UTest library to your project.
 
-- [Single-include](#single-include file)
-- [Git module](#git module)
+- [Single-include](###single-include file)
+- [Git module](###git module)
 
 
 
@@ -102,16 +121,16 @@ _**Requirements:**_
 
 _**Steps:**_
 
-1. Open [web-page](https://gitlab.akhcheck.ru/artiom.khafizov/unittester/) of UTest:
-   ![image-20240406235204545](docs/pictures/pageOfUTest.png)
+1. Open [repository](https://gitlab.akhcheck.ru/artiom.khafizov/unittester/) of UTest (or local directory if you have it downloaded already):
+   ![pageOfUTest](docs/pictures/pageOfUTest.png)
 
 2. Go to "single-include/UTest" folder and find "UTest.hpp" file:
-   ![image-20240407003505801](docs/pictures/single-include1.png)You should see this:
+   ![single-include1](docs/pictures/single-include1.png)You should see this:
 
-   ![image-20240406235418965](docs/pictures/single-include2.png)
+   ![single-include2](docs/pictures/single-include2.png)
    
 3. Open it and find download or copy button:
-   ![image-20240406235924354](docs/pictures/copyDownloadSingleInclude.png)
+   ![copyDownloadSingleInclude](docs/pictures/copyDownloadSingleInclude.png)
 
 4. Paste this file to your project folder
 
@@ -123,7 +142,7 @@ _**Steps:**_
 ### Git module
 
 _**Requirements:**_
-- You have to use [git](https://git--scm-com.translate.goog/?_x_tr_sl=en&_x_tr_tl=ru&_x_tr_hl=ru&_x_tr_pto=sc) in your project repository
+- You have to use [git](https://git-scm.com/) in your project repository
 - You should use [CMake](https://cmake.org/) for building your project
 
 
@@ -182,3 +201,6 @@ That's it! You have tested library for testing :)
 
 
 ## Extra docs links
+
+- [Architecture of UTest library](docs/README.md)
+
