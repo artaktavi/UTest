@@ -21,13 +21,15 @@ generate_single_include:
         - cmake --build build --target generate_single_include
         - git config user.email "ci-bot"
         - git config user.name "ci-bot"
-        - if [ $(git remote -v | grep "gitlab_origin" | wc -l) -eq 0 ]; then
+        - |
+          if [ $(git remote -v | grep "gitlab_origin" | wc -l) -eq 0 ]; then
             git remote add gitlab_origin "$GITLAB_ADDRESS"
           else
             git remote set-url gitlab_origin "$GITLAB_ADDRESS"
           fi
         - git add single-include/
-        - if [ $(git status | grep "nothing to commit" | wc -l) -eq 0 ]; then
+        - |
+          if [ $(git status | grep "nothing to commit" | wc -l) -eq 0 ]; then
             git commit -m "generated single-include by ci-bot"
             git push gitlab_origin HEAD:$CI_COMMIT_REF_NAME -o ci.skip # prevent triggering pipeline again
           fi
