@@ -7,8 +7,6 @@
 
 namespace UTestInfrastructure {
 namespace StdOstreamTest {
-size_t block_width = 34;
-size_t stats_symbols_count = 10;
 std::string AlignOnRightString(const std::string& str, size_t total_sz,
                                char filler) {
   std::string res;
@@ -50,9 +48,11 @@ void DisplayGroupStartOstream(std::ostream& o_stream,
   o_stream << UTest::ConsoleColorsConfig::GetColorCode(
                   UTest::ConsoleColorsConfig::common_color)
            << '|'
-           << AlignOnCenterString(' ' + group_name + ' ', block_width - 2, '-')
+           << AlignOnCenterString(' ' + group_name + ' ',
+                                  UTest::OutputConfig::block_width - 2, '-')
            << "|\n"
-           << "  v " << std::string(block_width - 8, '~') << " v\n"
+           << "  v " << std::string(UTest::OutputConfig::block_width - 8, '~')
+           << " v\n"
            << UTest::ConsoleColorsConfig::GetColorCode("reset");
 }
 void DisplayCommandResultOstream(std::ostream& o_stream,
@@ -73,7 +73,7 @@ void DisplayCommandResultOstream(std::ostream& o_stream,
   }
   o_stream << "   ~ " << std::setw(6) << std::right
            << ("[" + std::to_string(command_status.line) + "]") << " "
-           << std::setw(block_width - 16) << std::left
+           << std::setw(UTest::OutputConfig::block_width - 16) << std::left
            << (command_status.type + '(' + command_status.arg_1 +
                (!command_status.arg_2.empty() ? ", " + command_status.arg_2
                                               : "") +
@@ -112,7 +112,7 @@ void DisplayTestResultOstream(std::ostream& o_stream,
   }
   o_stream << " [ " << std::setw(6) << std::right << test_status.result << " ] "
            << UTest::ConsoleColorsConfig::GetColorCode("reset");
-  o_stream << std::setw(block_width - 16) << std::left
+  o_stream << std::setw(UTest::OutputConfig::block_width - 16) << std::left
            << (std::to_string(test_status.execution_time.count()) + "s ")
            << path_tmp << '\n';
 }
@@ -120,12 +120,13 @@ void DisplayGroupResultOstream(std::ostream& o_stream,
                                const UTest::TestGroupStatus& group_status) {
   o_stream << UTest::ConsoleColorsConfig::GetColorCode(
       UTest::ConsoleColorsConfig::common_color);
-  o_stream << ("  ^ " + std::string(block_width - 8, '~') + " ^\n");
+  o_stream << ("  ^ " + std::string(UTest::OutputConfig::block_width - 8, '~') +
+               " ^\n");
   o_stream << UTest::ConsoleColorsConfig::GetColorCode(
                   UTest::ConsoleColorsConfig::common_color)
            << '|'
            << AlignOnCenterString(' ' + group_status.group_name + ' ',
-                                  block_width - 2, '-')
+                                  UTest::OutputConfig::block_width - 2, '-')
            << "|\n";
   std::string res_text;
   if (group_status.result == UTEST_KEYWORD_FAILED) {
@@ -146,27 +147,38 @@ void DisplayGroupResultOstream(std::ostream& o_stream,
       ++tests_failed;
     }
   }
-  o_stream << ("|" + std::string(block_width - 2, '-') + "|\n");
+  o_stream << ("|" + std::string(UTest::OutputConfig::block_width - 2, '-') +
+               "|\n");
   o_stream << '|'
-           << AlignOnCenterString(' ' + res_text + ' ', block_width - 2, ' ')
+           << AlignOnCenterString(' ' + res_text + ' ',
+                                  UTest::OutputConfig::block_width - 2, ' ')
            << "|\n";
-  o_stream << ("|" + std::string(block_width - 2, '-') + "|\n");
-  o_stream << "| " << std::setw(block_width - 4) << std::left
+  o_stream << ("|" + std::string(UTest::OutputConfig::block_width - 2, '-') +
+               "|\n");
+  o_stream << "| " << std::setw(UTest::OutputConfig::block_width - 4)
+           << std::left
            << ("tests passed:   " +
-               AlignOnRightString(std::to_string(tests_passed), stats_symbols_count, '.'))
+               AlignOnRightString(std::to_string(tests_passed),
+                                  UTest::OutputConfig::stats_symbols_count,
+                                  '.'))
            << " |\n";
-  o_stream << "| " << std::setw(block_width - 4) << std::left
+  o_stream << "| " << std::setw(UTest::OutputConfig::block_width - 4)
+           << std::left
            << ("tests failed:   " +
-               AlignOnRightString(std::to_string(tests_failed), stats_symbols_count, '.'))
+               AlignOnRightString(std::to_string(tests_failed),
+                                  UTest::OutputConfig::stats_symbols_count,
+                                  '.'))
            << " |\n";
-  o_stream << "| " << std::setw(block_width - 4) << std::left
+  o_stream << "| " << std::setw(UTest::OutputConfig::block_width - 4)
+           << std::left
            << ("execution time: " +
                AlignOnRightString(
                    std::to_string(group_status.group_execution_time.count()),
-                   stats_symbols_count, '.') +
+                   UTest::OutputConfig::stats_symbols_count, '.') +
                " sec")
            << " |\n";
-  o_stream << ("|" + std::string(block_width - 2, '-') + "|\n");
+  o_stream << ("|" + std::string(UTest::OutputConfig::block_width - 2, '-') +
+               "|\n");
   o_stream << UTest::ConsoleColorsConfig::GetColorCode("reset");
   o_stream << "\n\n";
 }

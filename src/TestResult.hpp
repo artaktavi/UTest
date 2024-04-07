@@ -19,7 +19,7 @@ class TestResult {
   static const std::string LINE_STR_;
   static const std::string PATH_STR_;
   nlohmann::json json_storage_;
-  std::string path_to_auto_save_ = "unit_tester_report.json";
+  std::string path_to_auto_save_ = "utest_report.json";
   bool auto_save_enabled_ = false;
   /*
   TestStatus ConstructTestStatus(nlohmann::json::const_iterator& it) const {
@@ -42,9 +42,14 @@ class TestResult {
   */
 
  public:
-  void ToggleAutoSave() { auto_save_enabled_ = !auto_save_enabled_; }
-  bool IsAutoSaveEnabled() const { return auto_save_enabled_; }
   void SetPathToAutoSave(const std::string& path) { path_to_auto_save_ = path; }
+  void ToggleAutoSave(const std::string& path = "") {
+    auto_save_enabled_ = !auto_save_enabled_;
+    if (!path.empty()) {
+      SetPathToAutoSave(path);
+    }
+  }
+  bool IsAutoSaveEnabled() const { return auto_save_enabled_; }
   void AddTestStatus(const TestStatus& test) {
     if (json_storage_.find(test.group_name) == json_storage_.end()) {
       json_storage_[test.group_name][RES_STR_] = UTEST_KEYWORD_UNDEFINED_RESULT;

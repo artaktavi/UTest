@@ -94,9 +94,9 @@ Yeah, execution log while testing is really comfortable for reading, but what if
 
 - [stdout\stderr](README.md#stdout\stderr)  - UTest uses `std::cout` and `std::cerr` for displaying this
 
-- `UTest::TestResult` - it's a flexible object that contains tests results
+- [UTest::TestResult](README.md#test-result-class) - it's a flexible object that contains tests results
 
-- Execution status classes like:
+- Execution [status classes](README.md#status-classes) like:
 
   - `UTest::TestGroupStatus`
   - `UTest::TestStatus`
@@ -104,7 +104,7 @@ Yeah, execution log while testing is really comfortable for reading, but what if
 
   These things are just simple data structs that will help you read information in code easily
 
-- `.json` - static storage of tests output as a file
+- [.json](README.md#json-conversion) - static storage of tests output as a file
 
 
 
@@ -142,35 +142,58 @@ Also there are a some _**cosmetic output settings**_ such as:
 
   - `"reset"` - switches console color to default, `"black"`, `"red"`, `"green"`, `"yellow"`, `"blue"`, `"magenta"`, `"cyan"`, `"white"`, `"brightblack"`, `"brightred"`, `"brightgreen"`, `"brightyellow"`, `"brightblue"`, `"brightmagenta"`, `"brightcyan"`, `"brightwhite"`
 
+
+
 - **Output configuration:** responsible for extra information in log
 
-  - `is_failed_detailed` - if `true` shows all verifying statements of failed tests (`true` by default)
-  - `is_always_detailed` - make UTest output every command of every test (`false` by default)
-  - `is_command_failed_path_enabled` - shows path to failed command (`false` by default)
-  - `is_test_failed_path_enabled` - shows path to failed test (`true` by default)
+  - `bool is_failed_detailed` - if `true` shows all verifying statements of failed tests (`true` by default)
+  - `bool is_always_detailed` - make UTest output every command of every test (`false` by default)
+  - `bool is_command_failed_path_enabled` - shows path to failed command (`false` by default)
+  - `bool is_test_failed_path_enabled` - shows path to failed test (`true` by default)
 
+  - `size_t block_width` - width of tests group block, should be `>= 34` for correct output (`50` by default)
+  - `size_t stats_symbols_count` - count of symbols in stats of tests group block, should be `>= 10` for correct output (`16` by default)
 
-  You can use `UTest::OutputConfig::<parameter> = <true | false>` to change some settings
+  Use `UTest::OutputConfig::<parameter> = <value>` to change these settings
 
 
 
 #### Test Result class
 
+`UTest::TestResult` - it's a flexible object that contains info about tests execution. All the `UTest::ExecuteTest[Group | All]()` functions return objects of `TestResult` type.
+
+`TestResult` is a bit smart object, it can save itself as `.json` file and also be constructed from it. Moreover, there is option of data auto-saving (actually, it's a serializing into file before being destructed).
+
+
+
+_**Methods:**_:
+
+- `SetPathToAutoSave(const std::string& path)` - sets the specified path for auto-saving (`"utest_report.json"` by default)
+- `ToggleAutoSave(const std::string& path = "")` - toggles auto-saving into `.json` if path is not `""`
+- `IsAutoSaveEnabled()` - returns `true` if auto-saving is enabled
+- `AddTestStatus(const TestStatus& test)` - merges `TestStatus` (read [below](README.md#status-classes)) into current `TestResult` object. If test result info is already there, overwrites data with a passed `TestStatus`.
+- `AddGroupStatus(const TestGroupStatus& group)` - merges `TestGroupStatus` into `TestResult` object. Also overwrites info with a new one.
+- `SerializeToJson(std::string path = "")` - saves this `TestResult` as `.json` file by passed path (if it's empty, method uses auto-save path)
+- `DeserializeFromJson(const std::string& path)` - overwrites current `TestResult` object with a data from given `.json` file
+- `GetTestGroupStatusMap()` - returns `std::unordered_map<std::string, TestGroupStatus> ` object that you can use for reading tests data in code easily (read [below](README.md#status-classes))
+
+
+
+Also there such secondary methods as:
+
+- Constructors from:
+  - `const TestResult&` - copy constructor
+  - `const TestGroupStatus&`
+  - `const TestStatus&`
+  -  default constructor -> empty `TestResult`
+- Operators:
+  - `operator=(const TestResult& other)`
+
 
 
 #### Status classes
 
-
-
-#### Json files
-
-
-
-
-
 - 
-
-- `UTest::TestResult` - it's a flexible object in which you can write another tests or merge it with another `TestResult`, but - you serialize them into `.json` files and deserialize back
 
 - Execution status classes like:
 
@@ -186,7 +209,7 @@ Also there are a some _**cosmetic output settings**_ such as:
 
 ### Json conversion 
 
-
+auto-json saving
 
 ## Examples
 
