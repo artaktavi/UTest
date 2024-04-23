@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------|
 //                                                                    |
 //   Unit Tester library for c++11                                    |
-//   version 0.2.1                                                    |
+//   version 0.2.2                                                    |
 //                                                                    |
 //   author: https://t.me/craftycraftz                                |
 //   page:   https://gitlab.akhcheck.ru/artiom.khafizov/unittester    |
