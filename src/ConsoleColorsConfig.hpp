@@ -5,6 +5,7 @@
 #include <unordered_map>
 
 namespace UTest {
+
 namespace ConsoleColorsConfig {
 
 const std::unordered_map<std::string, std::string> console_colors = {
@@ -25,6 +26,7 @@ const std::unordered_map<std::string, std::string> console_colors = {
     {"brightmagenta", "\033[1m\033[35m"},
     {"brightcyan", "\033[1m\033[36m"},
     {"brightwhite", "\033[1m\033[37m"}};
+
 std::string group_passed_color = "green";
 std::string group_failed_color = "red";
 std::string test_start_color = "blue";
@@ -34,12 +36,17 @@ std::string common_color = "blue";
 std::string command_passed_color = "yellow";
 std::string command_failed_color = "red";
 std::string command_fatal_failed_color = "red";
+
 std::string GetColorCode(const std::string& color) noexcept {
   auto it = console_colors.find(color);
+
   if (it == console_colors.end()) {
     return {};
   }
+
   return it->second;
 }
+
 }  // namespace ConsoleColorsConfig
+
 }  // namespace UTest
