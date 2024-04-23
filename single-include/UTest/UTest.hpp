@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------|
 //                                                                    |
 //   Unit Tester library for c++11                                    |
-//   version 0.2.1                                                    |
+//   version 0.2.2                                                    |
 //                                                                    |
 //   author: https://t.me/craftycraftz                                |
 //   page:   https://gitlab.akhcheck.ru/artiom.khafizov/unittester    |
@@ -25831,6 +25831,26 @@ void SetOutputJsonFilePath(const std::string& new_path) noexcept {
   }
 
 
+
+#define ASSERT_FALSE(statement)                                               \
+  try {                                                                       \
+    if (!(statement)) {                                                       \
+      UpdateStatus(UTest::CommandStatus("ASSERT_FALSE", __LINE__, __FILE__,   \
+                                        #statement, UTEST_KEYWORD_PASSED));   \
+    } else {                                                                  \
+      UpdateStatus(UTest::CommandStatus("ASSERT_FALSE", __LINE__, __FILE__,   \
+                                        #statement,                           \
+                                        UTEST_KEYWORD_FATAL_FAILED));         \
+      return;                                                                 \
+    }                                                                         \
+  } catch (...) {                                                             \
+    UpdateStatus(UTest::CommandStatus("ASSERT_FALSE", __LINE__, __FILE__,     \
+                                      #statement,                             \
+                                      UTEST_KEYWORD_EXCEPTION_FATAL_FAILED)); \
+    return;                                                                   \
+  }
+
+
 // expects
 
 
@@ -25849,6 +25869,26 @@ void SetOutputJsonFilePath(const std::string& new_path) noexcept {
                                       UTEST_KEYWORD_EXCEPTION_FAILED));     \
     throw;                                                                  \
   }
+
+
+
+#define EXPECT_FALSE(statement)                                             \
+  try {                                                                     \
+    if (!(statement)) {                                                     \
+      UpdateStatus(UTest::CommandStatus("EXPECT_FALSE", __LINE__, __FILE__, \
+                                        #statement, UTEST_KEYWORD_PASSED)); \
+    } else {                                                                \
+      UpdateStatus(UTest::CommandStatus("EXPECT_FALSE", __LINE__, __FILE__, \
+                                        #statement, UTEST_KEYWORD_FAILED)); \
+    }                                                                       \
+  } catch (...) {                                                           \
+    UpdateStatus(UTest::CommandStatus("EXPECT_FALSE", __LINE__, __FILE__,   \
+                                      #statement,                           \
+                                      UTEST_KEYWORD_EXCEPTION_FAILED));     \
+    throw;                                                                  \
+  }
+
+
 
 
 
